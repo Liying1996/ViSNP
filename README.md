@@ -1,3 +1,6 @@
+## Vi-SNP: An R-package to query and visualize SNPs
+
+
 ## 1. **Introduction**
 
 Single-nucleotide polymorphism (SNP) is an important topic for most genetic association studies. This package can query, analyze, visualize and link SNPs with functional information (e.g., genes, regulatory elements, phenotypes).
@@ -30,11 +33,11 @@ info_table <- query_snp("chr1:1014863 ", input_type="hg38")
 
 Output:
 
-![](../example_figs/1_query_snp1.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/1_query_snp1.png)
 
 print:
 
-![](../example_figs/1_query_snp2.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/1_query_snp2.png)
 
 #### ***plot_physcores(snps, colors="default", input_type="rsID")***
 
@@ -49,7 +52,7 @@ snps <- c("rs2769466", "rs4661232")
 physcores_table <- plot_physcores(snps, colors = c("blue", "orange"))
 ```
 
-![](../example_figs/2_plot_physcores.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/2_plot_physcores.png)
 
 #### ***get_snp_rsID(snp_loc, assembly="hg19")***
 
@@ -78,7 +81,7 @@ cCRE_intersect <- get_snp_ccre(snp)
 # get_snp_ccre("chr22:19724571", input_type = "hg38", output_assembly = "hg38")
 ```
 
-![](../example_figs/3_get_snp_ccre.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/3_get_snp_ccre.png)
 
 #### ***get_snp_gwas(snp, input_type="rsID")***
 
@@ -88,7 +91,7 @@ Return the associated phenotypes and related research (from GWAS catelog) of the
 gwas_info <- get_snp_gwas("rs1891906")
 ```
 
-![](../example_figs/4_get_snp_gwas.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/4_get_snp_gwas.png)
 
 #### ***get_snp_eqtl(snp, input_type="rsID", eqtl_tissue = "Whole_Blood")***
 
@@ -98,7 +101,7 @@ Return GTEx significant single tissue eQTLs.
 gtex_data <- get_snp_eqtl("rs7524908", eqtl_tissue = "Whole_Blood")
 ```
 
-![](../example_figs/5_get_snp_eqtl.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/5_get_snp_eqtl.png)
 
 #### ***get_snp_motif(snp, input_type="rsID")***
 
@@ -108,7 +111,7 @@ Return SNP-disrupted motifs.
 get_snp_motif("chr1:109676139", "hg38")
 ```
 
-![](../example_figs/6_get_snp_motif.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/6_get_snp_motif.png)
 
 #### ***screenshot_GenomeBroswer(snp, input_type="rsID", filename, window_size=20)***
 
@@ -119,7 +122,7 @@ screenshot_GenomeBroswer("rs456", filename="rs456.pdf")
 screenshot_GenomeBroswer("chr22:19712094", input_type = "hg19", "~/test.pdf")
 ```
 
-![](../example_figs/7_genomebrowser.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/7_genomebrowser.png)
 
 #### ***get_LD(snps, pop="CEU", r2d="r2", assembly = "hg19", plot_heatmap=TRUE)***
 
@@ -141,11 +144,11 @@ ld_block <- get_LD(c("chr7:24962419", "rs114", "rs127", "rs7805287", "rs60676332
 
 Table:
 
-![](../example_figs/8_ld_table.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/8_ld_table.png)
 
 Heatmap:
 
-![](../example_figs/8_ld_heatmap.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/8_ld_heatmap.png)
 
 #### ***plot_snp_circos(snp_info_table, window_size=2e5, output_assembly = "hg19", savefile="circos.pdf")***
 
@@ -165,7 +168,7 @@ info_table <- query_snp("rs1891906")
 plot_snp_circos(snp_info_table=info_table, window_size = 1e5, savefile="~/test/circos2.pdf")
 ```
 
-![](../example_figs/9_circos.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/9_circos.png)
 
 #### ***hg19tohg38(snp_loc)***
 
@@ -183,7 +186,7 @@ Return the genomic locations of gene symbols.
 get_genes_loc(get_genes_loc(c('GP1BB', 'TBX1')))
 ```
 
-![](../example_figs/10_get_genes_loc.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/10_get_genes_loc.png)
 
 #### **4.2 For batch SNPs**
 
@@ -223,7 +226,7 @@ plot_consequence(data)
 # plot_consequence(data, show_num = 10, colors = rainbow(10))
 ```
 
-![](../example_figs/plot_consequence.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/plot_consequence.png)
 
 #### ***plot_affect_gene(data, plot_type="all", show_num=7)***
 
@@ -241,13 +244,13 @@ plot_affect_gene(data, plot_type = "merged")
 dev.off()
 ```
 
-![](../example_figs/plot_affect_gene.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/plot_affect_gene.png)
 
 #### ***plot_batch_titv(data)***
 
 Return a barplot of ti/tv ratio.
 
-![](../example_figs/titv.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/titv.png)
 
 #### ***plot_batch_AF(data, version="1000G")***
 
@@ -261,7 +264,7 @@ Return boxplots of allele frequency.
 plot_batch_AF(data, version = "1000G")
 ```
 
-![](../example_figs/AF.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/AF.png)
 
 #### ***plot_batch_cCRE(data, assembly = "hg38", show_unclassified=FALSE)***
 
@@ -277,7 +280,7 @@ Return barplots of cCREs that SNPs overlapped.
 plot_cCRE(data, plot_type="bar", assembly = "hg38", show_unclassified=FALSE)
 ```
 
-![](../example_figs/batch_cCREs.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/batch_cCREs.png)
 
 ####***plot_batch_gwas(data, assembly="hg38", show_num=5)***
 
@@ -289,7 +292,7 @@ Return barplots of associated GWAS phenotypes of SNPs.
 
 `show_num` Optional. The number of associated phenotypes shown on the plot. Default is 5.
 
-![](../example_figs/batch_gwas.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/batch_gwas.png)
 
 ### 5.***Data***
 
