@@ -1,0 +1,33 @@
+Package: ViSNP
+Type: Package
+Title: Vi-SNP: An R-package for SNP query and visualization 
+Version: 0.1.0
+Author: Ying Li
+Maintainer: Ying Li <ly20134626@gmail.com>
+Description: Query and Visualize SNPs.
+License: MIT License
+Encoding: UTF-8
+LazyData: true
+Depends:
+    httr,
+    jsonlite,    
+    ggplot2,    
+    ggsci,   
+    stringr,    
+    reshape2,    
+    stringr,    
+    LDlinkR,    
+    pheatmap,    
+    gplots,    
+    RColorBrewer,    
+    gridExtra,    
+    downloader,    
+    liftOver,    
+    circlize,    
+    biomaRt,    
+    ComplexHeatmap    
+RoxygenNote: 7.2.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
