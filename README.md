@@ -8,7 +8,7 @@ Single-nucleotide polymorphism (SNP) is an important topic for most genetic asso
 ## 2. **Installation**
 
 ``` bash
-devtools::install_github("")
+devtools::install_github("Liying1996/ViSNP")
 ```
 
 ## 3. **Functions of the package**
