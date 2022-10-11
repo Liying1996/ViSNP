@@ -1,3 +1,7 @@
+## Vi-SNP: An R-package to query and visualize SNPs
+
+--- 
+
 ## 1. **Introduction**
 
 Single-nucleotide polymorphism (SNP) is an important topic for most genetic association studies. This package can query, analyze, visualize and link SNPs with functional information (e.g., genes, regulatory elements, phenotypes).
