@@ -1,6 +1,5 @@
 ## Vi-SNP: An R-package to query and visualize SNPs
 
---- 
 
 ## 1. **Introduction**
 
