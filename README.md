@@ -294,7 +294,7 @@ Return barplots of associated GWAS phenotypes of SNPs.
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/batch_gwas.png)
 
-### 5.***Data***
+### 5.**Data**
 
 These datasets can be used directly.
 
