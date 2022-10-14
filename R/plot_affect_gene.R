@@ -46,7 +46,7 @@ plot_affect_gene <- function(data, plot_type="merged", show_num=7){
         guides(fill = "none") +
         labs(y = "Frequency") +
         theme_snp()  +
-        labs(title = "Top affacted genes") +
+        labs(title = "Top affected genes") +
         theme(axis.text.x = element_text(vjust=0.5), axis.text = element_text(size=10)) +
         theme(plot.title = element_text(hjust = 0.5, size = 12)) +
         scale_fill_nejm()
