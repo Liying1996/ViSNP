@@ -196,16 +196,24 @@ Ensembl Variant Effect Predictor (VEP) is one of the most widely used Variant An
 
 Please annotate SNPs with the following parameters first with VEP:
 
-    vep --cache --dir_cache ~/SNP_visualize/  \
-        --fasta ~/reference/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz \
-        -i test_region.txt \
-        -o output_region.txt \
-        --var_synonyms \
-        --af --af_1kg --af_esp \
-        --everything \
-        --force_overwrite
+```
+vep --cache --dir_cache ~/SNP_visualize/  \
+    --fasta ~/reference/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz \
+    -i test_region.txt \
+    -o output_region.txt \
+    --var_synonyms \
+    --af --af_1kg --af_esp \
+    --everything \
+    --force_overwrite
+```
 
-Load data in R and preprocess:
+Then use the summary_vep.py to preprocess the VEP results:
+
+```
+python addition/summary.py -i VEP_annotation.txt -o summary.txt
+```
+
+Load data in R:
 
 ```{r}
 data <- read.csv('file.txt', header=T, sep="\t") # Your preprocessed VEP annotation file
