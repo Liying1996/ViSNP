@@ -290,7 +290,8 @@ plot_cCRE(data, plot_type="bar", assembly = "hg38", show_unclassified=FALSE)
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/batch_cCREs.png)
 
-####***plot_batch_gwas(data, assembly="hg38", show_num=5)***
+
+#### ***plot_batch_gwas(data, assembly="hg38", show_num=5)***
 
 Return barplots of associated GWAS phenotypes of SNPs.
 
