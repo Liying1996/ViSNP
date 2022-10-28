@@ -130,6 +130,25 @@ get_snp_motif("chr1:109676139", "hg38")
 
 ![](../example_figs/6_get_snp_motif.png)
 
+#### ***get_loop_gene(snp, input_type="rsID")***
+
+Return 3D-interacting genes of a SNP
+
+```{R}
+loop_genes <- get_loop_gene("rs1059196")
+```
+![](../example_figs/11_loop_genes.jpg)
+
+#### ***get_loop_snp(snp, input_type="rsID")***
+
+Return 3D-interacting SNPs of a SNP.
+
+```{R}
+loop_snps <- get_loop_snp("rs1059196")
+```
+![](../example_figs/11_loop_snps.jpg)
+
+
 #### ***screenshot_GenomeBroswer(snp, input_type="rsID", filename, window_size=20)***
 
 Return the Genome Browser screenshot of a SNP.
