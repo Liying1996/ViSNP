@@ -14,7 +14,7 @@ devtools::install_github("Liying1996/ViSNP")
 ## 3. **Functions of the package**
 
 Workflow.
-![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/workflow.pdf)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/workflow.jpg)
 
 ## 4. **Details of functions**
 
