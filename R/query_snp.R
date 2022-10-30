@@ -174,7 +174,7 @@ query_snp <- function(snp, input_type="rsID", eqtl_tissue="Whole_Blood"){ # or c
   cat(paste("GWAS:", gwas_info, "\n"))
 
 
-  info_table <- data.frame(Info=c("rsID", "Chromosome", "Location(hg19)", "Location(hg38)", "Ref allele", "Alt allele","AF",  "Linear closest gene"," Linear closest gene type", "3D-Loop Genes", "3D-Interacting SNPs", "TFBS","eQTLs", "cCRE", "GWAS"), Value=c(rsID, chrom, location_hg19, location_hg38, ref_allele, alt_allele, AF_info, paste(linear_closest_gene_merged, collapse = ","), linear_closest_gene_type, loop_gene, loop_snps, tfbs, gtex_info, cCRE_info, gwas_info))
+  info_table <- data.frame(Info=c("rsID", "Chromosome", "Location(hg19)", "Location(hg38)", "Ref allele", "Alt allele","AF",  "Linear closest gene","Linear closest gene type", "3D-Loop Genes", "3D-Interacting SNPs", "TFBS","eQTLs", "cCRE", "GWAS"), Value=c(rsID, chrom, location_hg19, location_hg38, ref_allele, alt_allele, AF_info, paste(linear_closest_gene_merged, collapse = ","), linear_closest_gene_type, loop_gene, loop_snps, tfbs, gtex_info, cCRE_info, gwas_info))
 
   return(info_table)
 
