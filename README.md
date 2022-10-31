@@ -3,7 +3,7 @@
 
 ## 1. **Introduction**
 
-Single-nucleotide polymorphism (SNP) is an important topic for most genetic association studies. This package can query, analyze, visualize and link SNPs with functional information (e.g., genes, regulatory elements, phenotypes).
+Single-nucleotide polymorphism (SNP) is an important topic for most genetic association studies. This package can query, analyze, visualize and link SNPs with functional information (e.g., genes, regulatory elements, phenotypes) from multiple databases (3DSNPv2, GTEx, SCREEN and GWAS catalog).
 
 ## 2. **Installation**
 
