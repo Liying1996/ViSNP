@@ -235,7 +235,7 @@ python addition/summary_vep.py -i VEP_annotation.txt -o summary.txt
 Load data in R:
 
 ```{r}
-data <- read.csv('file.txt', header=T, sep="\t") # Your preprocessed VEP annotation file
+data <- read.csv('summary.txt', header=T, sep="\t") # Your preprocessed VEP annotation file
 ```
 
 #### ***plot_batch_consequence(data, show_lines=7, colors="default")***
