@@ -15,17 +15,14 @@ Depends:
     ggsci,   
     stringr,    
     reshape2,    
-    stringr,    
     LDlinkR,    
-    pheatmap,    
-    gplots,    
+    pheatmap,   
     RColorBrewer,    
     gridExtra,    
     downloader,    
     liftOver,    
     circlize,    
-    biomaRt,    
-    ComplexHeatmap    
+    biomaRt
 RoxygenNote: 7.2.1
 Suggests: 
     knitr,

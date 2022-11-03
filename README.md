@@ -229,7 +229,7 @@ vep --cache --dir_cache ~/SNP_visualize/  \
 Then use the summary_vep.py to preprocess the VEP results:
 
 ```
-python addition/summary.py -i VEP_annotation.txt -o summary.txt
+python addition/summary_vep.py -i VEP_annotation.txt -o summary.txt
 ```
 
 Load data in R:
