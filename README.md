@@ -44,7 +44,9 @@ print:
 
 Return a table and a line chart of the physcores of +/-10bp of SNPs.
 
-`snps` rsIDs or genomic locations. colors: Colors of lines. If not specified, default is to use the colors of `rainbow()`.
+`snps` rsIDs or genomic locations. 
+
+`colors`: Colors of lines. If not specified, default is to use the colors of `rainbow()`.
 
 `input_type`: The assembly version of the input SNP. "rsID", "hg19" and "hg38" can be selected. Default is "rsID".
 
