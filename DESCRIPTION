@@ -9,6 +9,7 @@ License: MIT License
 Encoding: UTF-8
 LazyData: true
 Depends:
+    R (>= 3.5.0),
     httr,
     jsonlite,    
     ggplot2,    
@@ -23,7 +24,7 @@ Depends:
     liftOver,    
     circlize,    
     biomaRt
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.0
 Suggests: 
     knitr,
     rmarkdown

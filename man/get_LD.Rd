@@ -2,8 +2,8 @@
 % Please edit documentation in R/get_LD.R
 \name{get_LD}
 \alias{get_LD}
-\title{Title get_LD: Get the genomic location of one gene symbol
-It should be noted that LDlinkR is called here, so a Personal Access Token must be required. Please refer to https://cran.r-project.org/web/packages/LDlinkR/vignettes/LDlinkR.html for details.}
+\title{Generates pairwise linkage disequilibrium statistics.
+It should be noted that LDlinkR is called here, so a Personal Access Token must be required. Please refer to \href{https://cran.r-project.org/web/packages/LDlinkR/vignettes/LDlinkR.html}{LDlinR} for details.}
 \usage{
 get_LD(snps, pop = "CEU", r2d = "r2", assembly = "hg19", plot_heatmap = TRUE)
 }
@@ -22,10 +22,10 @@ get_LD(snps, pop = "CEU", r2d = "r2", assembly = "hg19", plot_heatmap = TRUE)
 A data.frame of pairwise linkage disequilibrium statistics. Desired output can be based on estimates of R2 or D’.
 }
 \description{
-Title get_LD: Get the genomic location of one gene symbol
-It should be noted that LDlinkR is called here, so a Personal Access Token must be required. Please refer to https://cran.r-project.org/web/packages/LDlinkR/vignettes/LDlinkR.html for details.
+Generates pairwise linkage disequilibrium statistics.
+It should be noted that LDlinkR is called here, so a Personal Access Token must be required. Please refer to \href{https://cran.r-project.org/web/packages/LDlinkR/vignettes/LDlinkR.html}{LDlinR} for details.
 }
 \examples{
- ld_block <- get_LD(c("chr7:24962419", "rs114", "rs127", "rs7805287", "rs60676332", "rs10239961"), assembly = "hg19")
+ld_block <- get_LD(c("chr7:24962419", "rs114", "rs127", "rs7805287", "rs60676332", "rs10239961"), assembly = "hg19")
 
 }

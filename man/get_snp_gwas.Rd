@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_snp_gwas.R
 \name{get_snp_gwas}
 \alias{get_snp_gwas}
-\title{Title get_snp_eqtl: Return the associated phenotypes and related research (from GWAS catelog) of the SNP.}
+\title{Return the associated phenotypes and related research (from GWAS catalog) of the SNP.}
 \usage{
 get_snp_gwas(snp, input_type = "rsID")
 }
@@ -15,7 +15,7 @@ get_snp_gwas(snp, input_type = "rsID")
 A data.frame of associated GWAS phenpotypes.
 }
 \description{
-Title get_snp_eqtl: Return the associated phenotypes and related research (from GWAS catelog) of the SNP.
+Return the associated phenotypes and related research (from GWAS catalog) of the SNP.
 }
 \examples{
 gwas_info <- get_snp_gwas("rs1891906")

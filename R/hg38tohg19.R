@@ -13,7 +13,7 @@ hg38tohg19 <- function(snp_loc){
   chrom <- str_split_fixed(snp_loc, ":", 2)[1]
   pos <- as.numeric(str_split_fixed(snp_loc, ":", 2)[2])
   # chain <- import.chain("data/hg38ToHg19.over.chain")
-  chain_path <- system.file("data_chain/hg38ToHg19.over.chain", package = "ViSNP")
+  chain_path <- system.file("data/hg38ToHg19.over.chain", package = "ViSNP")
   chain <- import.chain(chain_path)
   hg38.ver <- GRanges(seqnames=chrom, ranges=IRanges(start=pos, width = 1))
   hg19.ver <- liftOver(hg38.ver, chain)

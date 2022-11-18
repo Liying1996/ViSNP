@@ -18,6 +18,6 @@ A data.frame including the genomic location.
 Return the genomic locations of gene symbols
 }
 \examples{
- get_genes_loc(get_genes_loc(c('GP1BB', 'TBX1')))
+get_genes_loc(c('GP1BB', 'TBX1'))
 
 }

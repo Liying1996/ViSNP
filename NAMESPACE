@@ -2,6 +2,8 @@
 
 export(get_LD)
 export(get_genes_loc)
+export(get_loop_gene)
+export(get_loop_snp)
 export(get_snp_ccre)
 export(get_snp_eqtl)
 export(get_snp_gwas)
@@ -20,3 +22,4 @@ export(plot_physcores)
 export(plot_snp_circos)
 export(query_snp)
 export(screenshot_GenomeBroswer)
+export(summary_vep)

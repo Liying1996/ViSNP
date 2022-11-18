@@ -20,5 +20,5 @@ A data.frame.
 Return barplots of cCREs that SNPs overlapped.
 }
 \examples{
-plot_cCRE(data, plot_type="bar", assembly = "hg38", show_unclassified=FALSE)
+plot_batch_cCREs(data, assembly = "hg38", show_unclassified=FALSE)
 }

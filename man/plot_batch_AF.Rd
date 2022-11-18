@@ -9,7 +9,7 @@ plot_batch_AF(data, version = "1000G")
 \arguments{
 \item{data}{Required. The annotation results from VEP.}
 
-\item{version}{Optional."1000G" or "gnomAD" can be selected;. Default is "1000G".}
+\item{version}{Optional."1000G" or "gnomAD" can be selected. Default is "1000G".}
 }
 \value{
 A boxplot.
@@ -18,5 +18,5 @@ A boxplot.
 Return boxplots of allele frequency.
 }
 \examples{
-plot_AF(data, version = "1000G")
+plot_batch_AF(data, version = "1000G")
 }
