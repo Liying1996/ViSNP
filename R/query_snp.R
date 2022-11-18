@@ -119,7 +119,7 @@ query_snp <- function(snp, input_type="rsID", eqtl_tissue="Whole_Blood"){ # or c
     tfbs <- paste(tfbs, collapse = ",")
   }
 
-  print("Get information from SCREEN and GWAS catelog...")
+  print("Get information from SCREEN and GWAS catalog...")
   cCRE_table <- get_snp_ccre(snp)
   if (nrow(cCRE_table)==0){
     cCRE_info <- "-"
