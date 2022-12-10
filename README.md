@@ -328,7 +328,7 @@ Return barplots of associated GWAS phenotypes of SNPs.
 
 These datasets can be used directly.
 
-cCRE_data_hg19: ENCODE SCREEN GRCh38-cCREs data.
+cCRE_data_hg19: ENCODE SCREEN GRCh19-cCREs data.
 
 cCRE_data_hg38: ENCODE SCREEN GRCh38-cCREs data.
 
