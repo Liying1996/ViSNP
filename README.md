@@ -263,7 +263,7 @@ Return barplots of affected genes of SNPs.
 
 `data` Required. The annotation results from VEP.
 
-`plot_type` Optional."gene", "snp", "all" and "merged" can be selected. Default is "rsID".
+`plot_type` Optional."gene", "snp", "all" and "merged" can be selected. Default is "merged".
 
 `show_num` Optional. The number of affected genes shown on the plot. Default is 7.
 
