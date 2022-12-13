@@ -44,8 +44,9 @@ plot_batch_gwas <- function(data, assembly="hg38", show_num=5){
       labs(y = "Frequency") +
       theme_snp() +
       labs(title = "Associated GWAS phenotypes") +
-      theme(axis.text.x = element_text(vjust=0.5), axis.text = element_text(size=10)) +
-      scale_fill_manual(values=colors)
+      theme(axis.text.x = element_text(vjust=0.5)) +
+      scale_fill_manual(values=colors) +
+      scale_x_discrete(labels=function(x) str_wrap(x, width=10))
 
   print(g)
 
