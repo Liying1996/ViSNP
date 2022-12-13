@@ -251,8 +251,8 @@ Return barplots of consequences.
 `colors` Optional. Default is `ggsci::pal_igv(alpha = 0.8)(show_num)`.
 
 ```{r}
-plot_consequence(data)
-# plot_consequence(data, show_num = 10, colors = rainbow(10))
+plot_batch_consequence(data)
+# plot_batch_consequence(data, show_num = 10, colors = rainbow(10))
 ```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/plot_consequence.png)
