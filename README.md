@@ -295,7 +295,7 @@ plot_batch_AF(data, version = "1000G")
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/AF.png)
 
-#### ***plot_batch_cCRE(data, assembly = "hg38", show_unclassified=FALSE)***
+#### ***plot_batch_cCREs(data, assembly = "hg38", show_unclassified=FALSE)***
 
 Return barplots of cCREs that SNPs overlapped.
 
@@ -306,7 +306,7 @@ Return barplots of cCREs that SNPs overlapped.
 `show_unclassified` Optional. Whether to display SNPs without overlapping cCREs.
 
 ```{r}
-plot_cCRE(data, plot_type="bar", assembly = "hg38", show_unclassified=FALSE)
+plot_batch_cCREs(data,assembly = "hg38", show_unclassified=FALSE)
 ```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/batch_cCREs.png)
