@@ -4,12 +4,14 @@
 \alias{get_loop_gene}
 \title{Return 3D-interacting genes of a SNP}
 \usage{
-get_loop_gene(snp, input_type = "rsID")
+get_loop_gene(snp, input_type = "rsID", output_type = "core")
 }
 \arguments{
 \item{snp}{Required.}
 
 \item{input_type}{Optional. The type of the input SNP. "rsID", hg19" or "hg38" can be selected. Default is "rsID".}
+
+\item{output_type}{Optional. The type of the output matrix. "core" or "full" can be selected. The output of "core" is subset of "full".Default is "core".}
 }
 \value{
 A data.frame of 3D-interacting genes.

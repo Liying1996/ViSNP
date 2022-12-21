@@ -2,7 +2,7 @@
 #'
 #' @param snp Required.
 #' @param input_type Optional. The type of the input SNP. "rsID", hg19" or "hg38" can be selected. Default is "rsID".
-
+#' @param output_type Optional. The type of the output matrix. "core" or "full" can be selected. The output of "core" is subset of "full".Default is "core".
 #'
 #' @return A data.frame of 3D-interacting SNPs
 #' @export
@@ -10,7 +10,14 @@
 #' @examples
 #' loop_snps <- get_loop_snp("rs1059196")
 
-get_loop_snp <- function(snp, input_type="rsID"){
+get_loop_snp <- function(snp, input_type="rsID", output_type="core"){
+  if  (!input_type %in% c("rsID", "hg19", "hg38")){
+    return(message("Please select 1 input type from rsID, hg19 and hg38!"))
+  }
+  if  (!output_type %in% c("core", "full")){
+    return(message("Please select 1 output type from core and full!"))
+  }
+
   if (input_type=="hg38"){
     snp <- get_snp_rsID(snp, assembly = "hg38")
   }else if(input_type=="hg19"){
@@ -32,6 +39,12 @@ get_loop_snp <- function(snp, input_type="rsID"){
   if (nrow(loop_snp_info)==0){
     return(data.frame())
   }
-  return(loop_snp_info)
+
+  if (output_type == "full"){
+    return(loop_snp_info)
+  }else{
+    loop_snp_info_subset <- loop_snp_info[c("start", "end", "cell", "type_loop", "SNP_B", "type", "chr")]
+    return(loop_snp_info_subset)
+  }
 
 }
