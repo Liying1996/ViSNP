@@ -43,7 +43,12 @@ get_loop_gene <- function(snp, input_type="rsID", output_type="core"){
   if (output_type == "full"){
     return(loop_gene_info)
   }else{
-    loop_gene_info_subset <- loop_gene_info[c("start", "end", "cell", "gene", "tissue",  "type_loop")]
-    return(loop_gene_info_subset)
+    if ("tissue" %in% colnames(loop_gene_info)){
+      loop_gene_info_subset <- loop_gene_info[c("start", "end", "cell", "gene", "tissue",  "type_loop")]
+      return(loop_gene_info_subset)
+    }else{
+      loop_gene_info_subset <- loop_gene_info[c("start", "end", "cell", "gene", "type_loop")]
+      return(loop_gene_info_subset)
+    }
   }
 }

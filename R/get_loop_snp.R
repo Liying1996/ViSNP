@@ -33,7 +33,7 @@ get_loop_snp <- function(snp, input_type="rsID", output_type="core"){
     if (!is.null(loop_snp_col[[i]])){
       loop_snp_info <- loop_snp_col[[i]]
       break
-    }
+    } op。
   }
 
   if (nrow(loop_snp_info)==0){
