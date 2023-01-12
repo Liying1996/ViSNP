@@ -126,7 +126,7 @@ get_snp_motif("chr1:109676139", "hg38")
 plot_snp_motif(snp="rs1059196")
 ```
 
-![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/6_plot_snp_motif.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/6_plot_snp_motif.jpg)
 
 #### ***get_loop_gene(snp, input_type="rsID",  output_type="core")***
 
@@ -241,7 +241,7 @@ plot_snp_circos(snp_info_table=info_table, window_size = 1e5, savefile="~/test/c
 plot_snp_network(snp="rs1059196")
 ```
 
-![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/12_plot_networks.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/12_plot_networks.jpg)
 
 #### ***hg19tohg38(snp_loc)***
 
