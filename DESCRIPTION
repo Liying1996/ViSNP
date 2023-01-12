@@ -23,7 +23,8 @@ Depends:
     downloader,    
     liftOver,    
     circlize,    
-    biomaRt
+    biomaRt,
+    tidyverse
 RoxygenNote: 7.2.0
 Suggests: 
     knitr,

@@ -1,21 +1,21 @@
-#' Return 3D-interating SNPs.
+#' Plot 3D-interating SNPs.
 #'
 #' @param snp Required.
 #' @param input_type Optional. The assembly version of the input SNP. "rsID", "hg19" and "hg38" can be selected. Default is "rsID".
 #' @param pop Required. Population.
-#' @param output_assembly Optional. The UCSC Assembly versions of chromosome coordinates of SNPs. "hg19" or "hg38" can be selected. Default is "hg19".
+#' @param output_assembly Optional. The UCSC Assembly versions of chromosome coordinates of outputs. "hg19" or "hg38" can be selected. Default is "hg19".
 #' @param show_cells Optional. The number of cell types shown in the figure. Default is 3 (Top 3 cell types). The names of cell types are available as well.
 #'
 #' @return A plot.
 #' @export
 #'
 #' @examples
-#' plot_loop_snps(snp="rs10", pop="AFR")
-#' plot_loop_snps(snp="rs10", pop="AFR", output_assembly='hg38')
-#' plot_loop_snps(snp=”rs10“, pop = pop, show_cells = c("Ventricle_Right", "Spleen"))
+#' plot_loop_snp(snp="rs10", pop="AFR")
+#' plot_loop_snp(snp="rs10", pop="AFR", output_assembly='hg38')
+#' plot_loop_snp(snp=”rs10“, pop = pop, show_cells = c("Ventricle_Right", "Spleen"))
 
 
-plot_loop_snps <- function(snp, input_type="rsID", pop, output_assembly="hg19", show_cells=3){
+plot_loop_snp <- function(snp, input_type="rsID", pop, output_assembly="hg19", show_cells=3){
 
   if  (!input_type %in% c("rsID", "hg19", "hg38")){
     return(message("Please select 1 input type from rsID, hg19 or hg38!"))

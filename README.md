@@ -86,9 +86,11 @@ cCRE_intersect <- get_snp_ccre(snp)
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/3_get_snp_ccre.png)
 
-#### ***get_snp_gwas(snp, input_type="rsID")***
+#### ***get_snp_gwas(snp, input_type="rsID", output_type="core")***
 
-Return the associated phenotypes and related research (from GWAS catelog) of the SNP.
+Return the associated phenotypes and related research (from GWAS catalog) of the SNP.  
+
+`output_type`: "core" or "full" can be selected. The output of "core" is subset of "full". Default is "core".
 
 ```{r}
 gwas_info <- get_snp_gwas("rs1891906")
@@ -116,23 +118,63 @@ get_snp_motif("chr1:109676139", "hg38")
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/6_get_snp_motif.png)
 
-#### ***get_loop_gene(snp, input_type="rsID")***
 
-Return 3D-interacting genes of a SNP
+
+***plot_snp_motif(snp, input_type="rsID")***
+
+```
+plot_snp_motif(snp="rs1059196")
+```
+
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/6_plot_snp_motif.png)
+
+#### ***get_loop_gene(snp, input_type="rsID",  output_type="core")***
+
+Return 3D-interacting genes of a SNP.
+
+`output_type`: "core" or "full" can be selected. The output of "core" is subset of "full". Default is "core".
 
 ```{R}
-loop_genes <- get_loop_gene("rs1059196")
+loop_genes <- get_loop_gene("rs1059196", output_type="full")
 ```
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/11_loop_genes.jpg)
 
-#### ***get_loop_snp(snp, input_type="rsID")***
+***plot_loop_gene(snp, input_type="rsID", output_assembly="hg19", show_cells=3)***
+
+`output_assembly` Optional. The UCSC Assembly versions of chromosome coordinates of outputs. "hg19" or "hg38" can be selected. Default is "hg19".
+
+`show_cells` Optional. The number of cell types shown in the figure. Default is 3 (Top 3 cell types). The names of cell types are available as well.
+
+```
+plot_loop_gene(snp="rs10", output_assembly='hg38', show_cells=c("VentricleLeft", "Caki2", "HepG2"))
+```
+
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/11_plot_loop_gene.jpg)
+
+#### ***get_loop_snp(snp, input_type="rsID",  output_type="core")***
 
 Return 3D-interacting SNPs of a SNP.
+
+`output_type`: "core" or "full" can be selected. The output of "core" is subset of "full". Default is "core".
 
 ```{R}
 loop_snps <- get_loop_snp("rs1059196")
 ```
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/11_loop_snps.jpg)
+
+***plot_loop_snp(snp, input_type="rsID", pop, output_assembly="hg19", show_cells=3)***
+
+`pop` Required. Population.
+
+`output_assembly` Optional. The UCSC Assembly versions of chromosome coordinates of outputs. "hg19" or "hg38" can be selected. Default is "hg19".
+
+`show_cells` Optional. The number of cell types shown in the figure. Default is 3 (Top 3 cell types). The names of cell types are available as well.
+
+```
+ plot_loop_snp(snp=”rs10“, pop = pop, show_cells = c("Ventricle_Right", "Spleen"))
+```
+
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/11_plot_loop_snp.jpg)
 
 #### ***screenshot_GenomeBroswer(snp, input_type="rsID", filename, window_size=20)***
 
@@ -190,6 +232,16 @@ plot_snp_circos(snp_info_table=info_table, window_size = 1e5, savefile="~/test/c
 ```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/9_circos.png)
+
+***plot_snp_network(snp, input_type = "rsID", colors="default")***
+
+`colors` Optional. Vectors with 6 colors. "default" is `brewer.pal(6, "Set1")`.
+
+```
+plot_snp_network(snp="rs1059196")
+```
+
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/12_plot_networks.png)
 
 #### ***hg19tohg38(snp_loc)***
 
