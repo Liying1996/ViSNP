@@ -272,12 +272,13 @@ Please annotate SNPs with the following parameters first with VEP:
 ```
 vep --cache --dir_cache ~/SNP_visualize/  \
     --fasta ~/reference/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz \
-    -i test_region.txt \
-    -o output_region.txt \
+    -i test.vcf \
+    -o VEP_annotation.txt \
     --var_synonyms \
     --af --af_1kg --af_esp \
     --everything \
-    --force_overwrite
+    --force_overwrite \
+    --offline
 ```
 
 Then use the summary_vep.py to preprocess the VEP results:

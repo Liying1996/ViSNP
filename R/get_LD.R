@@ -30,8 +30,9 @@ get_LD <- function(snps, pop="CEU", r2d="r2", assembly = "hg19", plot_heatmap=TR
   ld_mat2 <- as.matrix(ld_mat[,-1])
 
   if (plot_heatmap){
-    colors = colorRampPalette(colors = c("white", "#FF4500"))(20)
-    p <- pheatmap(ld_mat2, scale = "none", col = colors, display_numbers = T, angle_col = "45", cellwidth = 45, cellheight  = 45)
+    key_range <- seq(0, 1,by=0.2)
+    colors = colorRampPalette(colors = c("white", "#FF4500"))(length(key_range))
+    p <- pheatmap(ld_mat2, scale = "none", col = colors, display_numbers = T, angle_col = "45", cellwidth = 45, cellheight  = 45, breaks = key_range, legend_breaks = key_range, legend_labels = key_range, border_color ="white")
     print(p)
   }
     return(ld_mat2)

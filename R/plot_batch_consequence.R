@@ -34,7 +34,7 @@ plot_batch_consequence <- function(data, show_num=7, colors="default"){
         guides(fill = "none") +
         labs(y = "Frequency") +
         theme_snp() +
-        theme(axis.text.x = element_text(vjust=0.5), axis.text = element_text(size=10)) +
+        theme(axis.text.x = element_text(vjust=0.5), axis.text = element_text(size=12)) +
         scale_fill_manual(values=colors) +
         scale_x_discrete(labels=function(x) str_wrap(x, width=10))
     print(g1)

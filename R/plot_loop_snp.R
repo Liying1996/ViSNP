@@ -12,7 +12,8 @@
 #' @examples
 #' plot_loop_snp(snp="rs10", pop="AFR")
 #' plot_loop_snp(snp="rs10", pop="AFR", output_assembly='hg38')
-#' plot_loop_snp(snp=”rs10“, pop = pop, show_cells = c("Ventricle_Right", "Spleen"))
+#' plot_loop_snp(snp="rs10", pop = pop, show_cells = c("Ventricle_Right", "Spleen"))
+#' plot_loop_snp(snp='rs10040658', pop = "AFR", show_cells = c("GM12878", "Lung"))
 
 
 plot_loop_snp <- function(snp, input_type="rsID", pop, output_assembly="hg19", show_cells=3){
@@ -125,7 +126,8 @@ plot_loop_snp <- function(snp, input_type="rsID", pop, output_assembly="hg19", s
     anchor2_end <- (end2 - min(start1))/(max(end2) - min(start1)) * 10
     snp_input <- (snp_pos - min(start1))/(max(end2) - min(start1)) * 10
 
-    snp_B <- (snp_B_pos - start1)/(end2 - start1) * 10
+    snp_B <- (snp_B_pos - min(start1))/(max(end2) - min(start1)) * 10
+
 
     if (i == 1){
       snp_input_total <- tibble(
@@ -141,8 +143,8 @@ plot_loop_snp <- function(snp, input_type="rsID", pop, output_assembly="hg19", s
       arrows <- tibble(
         x1 = rep(snp_input, length(snp_B)),
         x2 = snp_B,
-        y1 = rep(2 * i + 0.07, length(snp_B)),
-        y2 = rep(2 * i + 0.07, length(snp_B))
+        y1 = rep(2 * i + 0.03, length(snp_B)),
+        y2 = rep(2 * i + 0.03, length(snp_B))
       )
 
       segments <- tibble(
@@ -165,8 +167,8 @@ plot_loop_snp <- function(snp, input_type="rsID", pop, output_assembly="hg19", s
       arrows <- add_row(arrows, tibble(
         x1 = rep(snp_input, length(snp_B)),
         x2 = snp_B,
-        y1 = rep(2 * i + 0.07, length(snp_B)),
-        y2 = rep(2 * i + 0.07, length(snp_B))
+        y1 = rep(2 * i + 0.03, length(snp_B)),
+        y2 = rep(2 * i + 0.03, length(snp_B))
       ))
 
       segments <- add_row(segments, tibble(
@@ -187,9 +189,26 @@ plot_loop_snp <- function(snp, input_type="rsID", pop, output_assembly="hg19", s
     cell_y <- c(cell_y, 1 + 2 * i)
     cell_labels <- c(cell_labels, cell_types[i])
 
-    snp_text_x = c(snp_text_x, snp_input, snp_B)
-    snp_text_y = c(snp_text_y, rep(i * 2 - 0.3, length(snp_B)+1))
-    snp_text_label <- c(snp_text_label, snp_id, snp_B_id)
+    snp_B2 <- c()
+    snp_B_id2 <- c()
+    for (x in 1:length(snp_B)){
+      if (x > 1){
+        if ((snp_B[x] - snp_B[x-1] < 0.2) & (snp_B_id[x] != snp_B_id[x-1])){
+            snp_B2 <- c(snp_B2, snp_B[x] + 0.15)
+            snp_B_id2 <- c(snp_B_id2, snp_B_id[x])
+          }else if (snp_B_id[x] != snp_B_id[x-1]){
+            snp_B2 <- c(snp_B2, snp_B[x])
+            snp_B_id2 <- c(snp_B_id2, snp_B_id[x])
+          }
+      }else{
+        snp_B2 <- snp_B[1]
+        snp_B_id2 <- c(snp_B_id2, snp_B_id[1])
+        }
+    }
+
+    snp_text_x = c(snp_text_x, snp_input, snp_B2)
+    snp_text_y = c(snp_text_y, rep(i * 2 - 0.3, length(snp_B2)+1))
+    snp_text_label <- c(snp_text_label, snp_id, snp_B_id2)
   }
 
 
@@ -207,14 +226,16 @@ plot_loop_snp <- function(snp, input_type="rsID", pop, output_assembly="hg19", s
   )
 
   segments <- segments[!duplicated(segments),]
+  tmp_df <- data.frame(snp_text_x=snp_text_x, snp_text_y=snp_text_y, snp_text_label=snp_text_label)
+  tmp_df <- tmp_df[!duplicated(tmp_df),]
 
   ggplot() + geom_segment(data = sequence, aes(x=x1, y=y1, xend=x2, yend=y2), color="black", alpha=0.7) +
     geom_segment(data=segments, aes(x=x1, y=y1, xend=x2, yend=y2, color=color), alpha=0.7, size=2) +
     geom_point(data = snp_input_total, aes(x=x, y=y), shape=18, color="#F75000", size=3) +
     geom_point(data = points_B, aes(x=x, y=y), shape=18, color="#00A600", size=3) +
     geom_point(data = seq_label, aes(x=x, y=y), shape="I", size=1.5) +
-    geom_curve(data = arrows, aes(x=x1, y=y1, xend=x2, yend=y2), arrow = arrow(length = unit(0.01, "npc")), size = 0.5, color="purple", curvature=0.6) +
-    annotate("text", x=snp_text_x, y=snp_text_y , label=snp_text_label, size=2, color="black", angle=45, alpha=0.6) +
+    geom_curve(data = arrows, aes(x=x1, y=y1, xend=x2, yend=y2), arrow = arrow(length = unit(0.01, "npc")), size = 0.5, color="purple", curvature=0.8) +
+    annotate("text", x=tmp_df$snp_text_x, y=tmp_df$snp_text_y,label=tmp_df$snp_text_label, size=2, color="black", angle=45, alpha=0.6) +
     annotate("text", x=rep(0.6, length(cell_types)), y=0.7+2*c(1:length(cell_types)), label=cell_types, size=3.5) +
     annotate("text", x=10, y=1.3, label="Mb", size=3) +
     annotate("text",x=scales_total_x, y=scales_total_y, label=scales_total_label, size=2.5) +

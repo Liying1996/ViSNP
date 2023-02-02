@@ -58,6 +58,7 @@ plot_physcores <- function(snps, colors="default", input_type="rsID"){ # 1 snp i
      geom_line() + geom_point() +
      geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
      theme_snp() +
+     theme(legend.position = "top") +
      scale_color_manual(values = colors) +
      guides(color = guide_legend(title=NULL), shape=guide_legend(title=NULL)) +
      labs(x = "Relative Position", y = "PhyloP score")

@@ -11,7 +11,7 @@
 #' @examples
 #' plot_loop_gene(snp="rs10")
 #' plot_loop_gene(snp="rs10", output_assembly='hg38', show_cells=c("VentricleLeft", "Caki2", "HepG2"))
-#'
+#' plot_loop_gene(snp="rs10040658", show_cells=c("GM12878", "A549"))
 
 plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_cells=3){
 
@@ -27,17 +27,16 @@ plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_
     snp_id <- snp
   }
 
+  loop_genes <- get_loop_gene(snp_id)
   loop_genes <- loop_genes[loop_genes$gene!="",]
-
+  loop_genes <- loop_genes[!duplicated(loop_genes),]
 
   cell_types <- unique(loop_genes$cell)
-  if (length(cell_types) > 3){
-    cell_types <- cell_types[1:3]
-  }
 
   if (class(show_cells)=="numeric"){
     if (length(cell_types) > show_cells){
       cell_types <- cell_types[1:show_cells]
+      loop_genes <-  loop_genes[loop_genes$cell %in% cell_types, ]
     }
   }
 
@@ -50,6 +49,7 @@ plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_
   }
 
   cell_types <- unique(loop_genes$cell)
+
   chrom <- str_split_fixed(loop_genes$start[1], ":", 2)[1]
   if (output_assembly=="hg19"){
     snp_loc <- get_snp_loc(snp_id, "hg19")
@@ -133,18 +133,41 @@ plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_
     gene_start <- (gene_pos$start_position - min_start)/(max_end - min_start) * 10
     gene_end <- (gene_pos$end_position - min_start)/(max_end - min_start) * 10
     gene_mid <- (gene_start + gene_end)/2
+    gene_mid3 <- gene_mid
 
-    if (i == 1){
-      snp_input_total <- tibble(
-        x = snp_input,
-        y = 2 * i
-      )
+    # adjust positions
+    gene_mid2 <- c()
+    for (x in gene_mid){
+      if (abs(x - snp_input) < 0.2){
+        if (x > snp_input){
+          x = x + 0.35
+          snp_input <- snp_input - 0.2
+        }else{
+          x = x - 0.35
+          snp_input <- snp_input + 0.2
+        }
+      }
+      gene_mid2 <- c(gene_mid2, x)
+
+    }
+      gene_mid <- gene_mid2
+
+      gene_colors <- c()
+      for (gene in gene_loc$gene_symbol){
+        gene_colors <- c(gene_colors, colors_genes_df[colors_genes_df$gene == gene, 2])
+      }
+
+      if (i == 1){
+        snp_input_total <- tibble(
+          x = snp_input,
+          y = 2 * i
+        )
 
       arrows <- tibble(
-        x1 = rep(snp_input, length(gene_mid)),
-        x2 = gene_mid,
-        y1 = rep(2 * i + 0.01, length(gene_mid)),
-        y2 = rep(2 * i + 0.01, length(gene_mid))
+        x1 = rep(snp_input, length(gene_mid3)),
+        x2 = gene_mid3,
+        y1 = rep(2 * i + 0.01, length(gene_mid3)),
+        y2 = rep(2 * i + 0.01, length(gene_mid3))
       )
 
       segments <- tibble(
@@ -160,7 +183,7 @@ plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_
         x2 = gene_end,
         y1 = rep(2*i, length(gene_start)),
         y2 = rep(2*i, length(gene_end)),
-        color = colors_genes_df[colors_genes_df$gene %in% c(gene_loc$gene_symbol), 2]
+        color = gene_colors
       )
 
     }else{
@@ -170,10 +193,10 @@ plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_
       ))
 
       arrows <- add_row(arrows, tibble(
-        x1 = rep(snp_input, length(gene_mid)),
-        x2 = gene_mid,
-        y1 = rep(2 * i + 0.01, length(gene_mid)),
-        y2 = rep(2 * i + 0.01, length(gene_mid))
+        x1 = rep(snp_input, length(gene_mid3)),
+        x2 = gene_mid3,
+        y1 = rep(2 * i + 0.01, length(gene_mid3)),
+        y2 = rep(2 * i + 0.01, length(gene_mid3))
       ))
 
       segments <- add_row(segments, tibble(
@@ -184,10 +207,7 @@ plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_
         color = rep(seg_color, 2)
       ))
 
-      gene_colors <- c()
-      for (gene in gene_loc$gene_symbol){
-        gene_colors <- c(gene_colors, colors_genes_df[colors_genes_df$gene == gene, 2])
-      }
+
 
       segments_gene <- add_row(segments_gene, tibble(
         x1 = gene_start,
@@ -210,6 +230,7 @@ plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_
     gene_text_x = c(gene_text_x, snp_input, gene_mid)
     gene_text_y = c(gene_text_y, rep(i * 2 - 0.3, length(gene_mid)+1))
     gene_text_label <- c(gene_text_label, snp_id, gene_loc$gene_symbol)
+
   }
 
 
@@ -225,16 +246,18 @@ plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_
     x = rep(seq(0,10,2.5), length(cell_types)),
     y = rep(2 * c(1:length(cell_types)) - 0.6, rep(5, length(cell_types)))
   )
+  tmp_df <- data.frame(gene_text_x=gene_text_x, gene_text_y=gene_text_y, gene_text_label=gene_text_label)
+  tmp_df <- tmp_df[!duplicated(tmp_df),]
 
   segments <- add_row(segments, segments_gene)
   segments <- segments[!duplicated(segments),]
-
+  # pdf("~/Documents/Vi-SNP/Frontier/links_gene2.pdf", width=5, height = 6)
   ggplot() + geom_segment(data = sequence, aes(x=x1, y=y1, xend=x2, yend=y2), color="black", alpha=0.7) +
     geom_segment(data=segments, aes(x=x1, y=y1, xend=x2, yend=y2, color=color), alpha=0.7, size=2) +
     geom_point(data = snp_input_total, aes(x=x, y=y), shape=18, color="#F75000", size=3) +
     geom_point(data = seq_label, aes(x=x, y=y), shape="I", size=1.5) +
-    geom_curve(data = arrows, aes(x=x1, y=y1, xend=x2, yend=y2), arrow = arrow(length = unit(0.01, "npc")), size = 0.5, color="purple", curvature=-0.4) +
-    annotate("text", x=gene_text_x, y=gene_text_y , label=gene_text_label, size=2, color="black", angle=45, alpha=0.6) +
+    geom_curve(data = arrows, aes(x=x1, y=y1, xend=x2, yend=y2), arrow = arrow(length = unit(0.01, "npc")), size = 0.5, color="purple", curvature=0.7) +
+    annotate("text", x=tmp_df$gene_text_x, y=tmp_df$gene_text_y , label=tmp_df$gene_text_label, size=2, color="black", angle=45, alpha=0.6) +
     annotate("text", x=rep(0.6, length(cell_types)), y=0.7+2*c(1:length(cell_types)), label=cell_types, size=3.5) +
     annotate("text", x=10, y=1.3, label="Mb", size=3) +
     annotate("text",x=scales_total_x, y=scales_total_y, label=scales_total_label, size=2.5) +
@@ -247,5 +270,6 @@ plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_
       axis.text=element_blank(),
       axis.ticks=element_blank()) +
     theme(plot.title = element_text(hjust=0.5))
+  # dev.off()
 
 }

@@ -20,7 +20,7 @@ plot_affect_gene <- function(data, plot_type="merged", show_num=7){
         return(message("Invalid parameter! Please use one parameter in 'all','gene', 'snp', 'feature', 'merged'."))
     }
 
-    new_data <-data[, c("Uploaded_variation", "Gene", "Feature_type")]
+    new_data <- data[, c("Uploaded_variation", "Gene", "Feature_type")]
     new_data <- unique(new_data)
     genes <- data.frame(table(new_data$Gene))
     colnames(genes) <- c("Gene", "Freq")
@@ -40,6 +40,7 @@ plot_affect_gene <- function(data, plot_type="merged", show_num=7){
 
     genes <- genes[genes$Gene != "-", ]
     genes <- genes[order(genes$Freq, decreasing = T), ]
+    genes$Gene <- factor(genes$Gene, levels=rev(genes$Gene))
     genes <- genes[1:show_num,]
     g2 <- ggplot(genes, aes(x = Gene, y = Freq, fill = Gene)) + geom_bar(stat = "identity") +
         coord_flip() +
@@ -59,6 +60,7 @@ plot_affect_gene <- function(data, plot_type="merged", show_num=7){
     genes <- genes[order(genes$Variation, decreasing = T), ]
     genes <- genes[1:show_num,]
     genes <- genes[order(genes$Freq, decreasing = F), ]
+    genes$Variation <- factor(genes$Variation, levels=genes$Variation)
 
     g3 <- ggplot(genes, aes(x = Variation, y = Freq, fill = Variation, 20)) + geom_bar(stat = "identity") +
         coord_flip() +

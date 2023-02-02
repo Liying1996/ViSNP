@@ -10,7 +10,7 @@
 #' plot_snp_motif(snp="rs1059196")
 
 
-plot_snp_motif <- function(snp, input_type="rsID"){
+plot_snp_motif <- function(snp, input_type="rsID", tf="all"){
 
   if  (!input_type %in% c("rsID", "hg19", "hg38")){
     return(message("Please select 1 input type from rsID, hg19 or hg38!"))
@@ -24,6 +24,15 @@ plot_snp_motif <- function(snp, input_type="rsID"){
     snp_id <- snp
   }
 
+  motifs <- get_snp_motif(snp_id)
+  if (tf[1]!="all"){
+    if (sum(tf %in% motifs$Motif) != length(tf)){
+      return(message("Invalid TF name!"))
+    }else{
+      motifs <- motifs[motifs$Motif%in%tf, ]
+    }
+  }
+
   seq_x = c()
   seq_y = c()
   seq_label = c()
@@ -33,6 +42,7 @@ plot_snp_motif <- function(snp, input_type="rsID"){
   axis_x <- c()
   axis_y <- c()
   axis_label <- c()
+
 
   for (i in 1:nrow(motifs)){
     seqs <- strsplit(motifs$Sequence[i], "")[[1]]
@@ -75,7 +85,7 @@ plot_snp_motif <- function(snp, input_type="rsID"){
 
   motif_names <- motifs$Motif
   motif_strand <- motifs$Strand
-  motif_x <- rep(3, nrow(motifs))
+  motif_x <- rep(max(segments$x2)*0.15, nrow(motifs))
   motif_y <- seq(1, nrow(motifs)) + 0.35
 
 

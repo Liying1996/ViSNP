@@ -1,4 +1,10 @@
+#' Theme
 
+#' @return
+#' @export
+#'
+#' @examples
+#'
 
 theme_snp <- function(){
     theme_bw() +
