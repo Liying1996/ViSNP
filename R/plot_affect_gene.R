@@ -1,8 +1,10 @@
 #' Return barplots of affected genes of SNPs.
 #'
 #' @param data Required. The annotation results from VEP.
+#' @param data_source Optional. The source of the inpit data. "API" or "Upload" can be selected. Default is "API" (Input annotated data from get_batch_vep() function).
 #' @param plot_type Optional."gene", "snp", "all" and "merged" can be selected. Default is "rsID".
 #' @param show_num Optional. The number of affected genes shown on the plot. Default is 7.
+#' @param go_enrichment Optional. Whether to do the GO enrichment analysis of genes. Default is FALSE. (Users can do the enrichment analysis by analyze_gwas_enrich() as well)
 #'
 #' @return A data.frame.
 #' @export
@@ -13,19 +15,34 @@
 #' dev.off()
 
 
-
-
-plot_affect_gene <- function(data, plot_type="merged", show_num=7){
-    if (!plot_type %in% c("all", "gene", "snp", "feature", "merged")){
+plot_affect_gene <- function(data, data_source="API", plot_type="merged", show_num=7, go_enrichment=FALSE){
+    if (!plot_type %in% c("all", "gene", "snp", "merged")){
         return(message("Invalid parameter! Please use one parameter in 'all','gene', 'snp', 'feature', 'merged'."))
     }
 
-    new_data <- data[, c("Uploaded_variation", "Gene", "Feature_type")]
-    new_data <- unique(new_data)
-    genes <- data.frame(table(new_data$Gene))
-    colnames(genes) <- c("Gene", "Freq")
-    unaffect_num <- genes[genes$Gene == "-", 2]
-    affect_num <- sum(genes[genes$Gene != "-", 2])
+    if (data_source=="Upload"){
+      new_data <- data[, c("Uploaded_variation", "Gene")]
+      new_data <- unique(new_data)
+      colnames(new_data) <- c('SNP', 'Gene')
+      unaffect_num <- sum(new_data$Gene == '-')
+      affect_num <- sum(new_data$Gene != '-')
+
+    }else{
+      genes <- c()
+      snps <- c()
+      for (i in 1:nrow(data)){
+        curr <- unique(data$transcript_consequences[[i]])
+        if ('gene_id' %in% colnames(curr)){
+          curr_genes <- unique(curr$gene_id)
+        }else{curr_genes <- '-'}
+        genes <- c(genes, curr_genes)
+        snps <- c(snps, rep(data$id[i], length(curr_genes)))
+      }
+      new_data <- data.frame(SNP=snps, Gene=genes)
+      new_data <- unique(new_data)
+      unaffect_num <- sum(new_data$Gene == '-')
+      affect_num <- sum(new_data$Gene != '-')
+    }
 
     genes_df <- data.frame(c("Affect", "Unaffect"), c(affect_num, unaffect_num))
     colnames(genes_df) <- c("type", "freq")
@@ -37,12 +54,13 @@ plot_affect_gene <- function(data, plot_type="merged", show_num=7){
         theme(plot.title = element_text(hjust = 0.5, size = 12)) +
         labs(title = "Summay of affected genes")
 
-
-    genes <- genes[genes$Gene != "-", ]
-    genes <- genes[order(genes$Freq, decreasing = T), ]
-    genes$Gene <- factor(genes$Gene, levels=rev(genes$Gene))
-    genes <- genes[1:show_num,]
-    g2 <- ggplot(genes, aes(x = Gene, y = Freq, fill = Gene)) + geom_bar(stat = "identity") +
+    new_genes <- new_data[new_data$Gene != "-", ]
+    new_genes <- data.frame(table(new_genes$Gene))
+    colnames(new_genes) <- c('Gene', 'Freq')
+    new_genes <- new_genes[order(new_genes$Freq, decreasing = T), ]
+    new_genes$Gene <- factor(new_genes$Gene, levels=rev(new_genes$Gene))
+    new_genes <- new_genes[1:show_num,]
+    g2 <- ggplot(new_genes, aes(x = Gene, y = Freq, fill = Gene)) + geom_bar(stat = "identity") +
         coord_flip() +
         guides(fill = "none") +
         labs(y = "Frequency") +
@@ -53,16 +71,15 @@ plot_affect_gene <- function(data, plot_type="merged", show_num=7){
         scale_fill_nejm()
 
     # The Number of affected genes for each SNP
-    # new_data <- data[, c("Uploaded_variation", "Gene", "Feature_type", "Biotype")]
-    # new_data <- unique(new_data)
-    genes <- data.frame(table(new_data$Uploaded_variation))
-    colnames(genes) <- c("Variation", "Freq")
-    genes <- genes[order(genes$Variation, decreasing = T), ]
-    genes <- genes[1:show_num,]
-    genes <- genes[order(genes$Freq, decreasing = F), ]
-    genes$Variation <- factor(genes$Variation, levels=genes$Variation)
+    new_SNPs <- new_data[new_data$Gene != "-", ]
+    new_SNPs <- data.frame(table(new_SNPs$SNP))
+    colnames(new_SNPs) <- c("SNP", "Freq")
+    new_SNPs <- new_SNPs[order(new_SNPs$SNP, decreasing = T), ]
+    new_SNPs <- new_SNPs[1:show_num,]
+    new_SNPs <- new_SNPs[order(new_SNPs$Freq, decreasing = F), ]
+    new_SNPs$SNP <- factor(new_SNPs$SNP, levels=new_SNPs$SNP)
 
-    g3 <- ggplot(genes, aes(x = Variation, y = Freq, fill = Variation, 20)) + geom_bar(stat = "identity") +
+    g3 <- ggplot(new_SNPs, aes(x = SNP, y = Freq, fill = SNP, 20)) + geom_bar(stat = "identity") +
         coord_flip() +
         guides(fill = "none") +
         labs(y = "Frequency", title = "Affected genes of each SNP") +
@@ -71,25 +88,24 @@ plot_affect_gene <- function(data, plot_type="merged", show_num=7){
         theme(plot.title = element_text(hjust = 0.5, size = 12))  +
         scale_fill_lancet()
 
-
     # Affected feature Type
-    feature <- data.frame(table(new_data$Feature_type))
-    colnames(feature) <- c("Feature", "Freq")
-    feature <- feature[feature$Feature != "-",]
-    feature <- feature[order(feature$Feature, decreasing = T), ]
-    g4 <- ggplot(feature, aes(x = Feature, y = Freq, fill = Feature, 20)) + geom_bar(stat = "identity") +
-        guides(fill = "none") +
-        labs(y = "Frequency", title = "Affected feature types") +
-        theme_snp() +
-        theme(axis.text.x = element_text(vjust=0.5), axis.text = element_text(size=10)) +
-        theme(plot.title = element_text(hjust = 0.5, size = 12)) +
-        scale_fill_igv()
+    # feature <- data.frame(table(new_data$Feature_type))
+    # colnames(feature) <- c("Feature", "Freq")
+    # feature <- feature[feature$Feature != "-",]
+    # feature <- feature[order(feature$Feature, decreasing = T), ]
+    # g4 <- ggplot(feature, aes(x = Feature, y = Freq, fill = Feature, 20)) + geom_bar(stat = "identity") +
+    #     guides(fill = "none") +
+    #     labs(y = "Frequency", title = "Affected feature types") +
+    #     theme_snp() +
+    #     theme(axis.text.x = element_text(vjust=0.5), axis.text = element_text(size=10)) +
+    #     theme(plot.title = element_text(hjust = 0.5, size = 12)) +
+    #     scale_fill_igv()
 
     if (plot_type=="all"){
         print(g1)
         print(g2)
         print(g3)
-        print(g4)
+        # print(g4)
     }else if (plot_type=="gene"){
         print(g1)
         print(g2)
@@ -98,6 +114,12 @@ plot_affect_gene <- function(data, plot_type="merged", show_num=7){
     }else if (plot_type=="feature"){
         print(g3)
     }else{
-        grid.arrange(g1, g2, g3, g4, ncol=2)
+        grid.arrange(g1, g2, g3, ncol=2)
+    }
+
+    if (go_enrichment){
+      snp_genes <- unique(new_data[new_data$Gene != "-", 2])
+      go_plot <- analyze_gene_go(snp_genes, output_type="dotplot")
+      print(go_plot)
     }
 }

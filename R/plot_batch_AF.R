@@ -1,6 +1,6 @@
 #' Return boxplots of allele frequency.
 #'
-#' @param data Required. The annotation results from VEP.
+#' @param data Required. The annotation results from VEP (Only for Upload version, not for api).
 #' @param version Optional."1000G" or "gnomAD" can be selected. Default is "1000G".
 #'
 #' @return A boxplot.

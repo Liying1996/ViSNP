@@ -191,6 +191,31 @@ screenshot_GenomeBroswer("chr22:19712094", input_type = "hg19", "~/test.pdf")
 
 Generates pairwise linkage disequilibrium statistics.
 
+**It should be noted that `LDlinkR` is embeded in this function, so a personal access token is required in In order to access the LDlinkAPI via `LDlinkR`.  For details, please see https://rdrr.io/cran/LDlinkR/f/vignettes/LDlinkR.Rmd or you can follow the steps below:**
+
+1. Make a one-time request for your personal access token from a web browser at https://ldlink.nci.nih.gov/?tab=apiaccess.
+2. Once registered, your personal access token will be emailed to you. It is a string of 12 random letters and numbers.
+3. Then,  from the R console, do (to open the .Renviron file):
+
+```
+usethis::edit_r_environ() # Open the .Renviron file
+
+```
+
+4. Next, add a line that looks like this in the .Renviron file:
+
+```
+LDLINK_TOKEN=YourTokenHere123
+```
+
+5. Finally, save and close the `.Renviron` file. Restart R, as environment variables are only loaded from `.Renviron` at the start of a new R session. Now, you can check by entering:
+
+```
+Sys.getenv("LDLINK_TOKEN")
+```
+
+
+
 `snps` Required. between 1 - 10 variants, using an rsID or chromosome coordinate.
 
 `pop` Optional. Default is "CEU". list_pop() return all the options.
@@ -263,9 +288,41 @@ get_genes_loc(get_genes_loc(c('GP1BB', 'TBX1')))
 
 #### **4.2 For batch SNPs**
 
+##### [Annotated via VEP API]
+
+***get_batch_vep(snps, input_type='rsID')***
+
+Ensembl Variant Effect Predictor (VEP) is one of the most widely used Variant Annotation tools for the analysis, annotation, and prioritization of genomic variants in coding and non-coding regions. 
+
+`snps` Required.
+`input_type` Optional. The type of the input SNP. "rsID", hg19" or "hg38" can be selected. Default is "rsID".
+
+```
+vep_anno <- get_vep(c("rs56116432", "rs10040658"), input_type = "rsID")
+
+snps <- unique(data$Existing_variation)
+api_anno <- get_vep(snps, input_type = "rsID")
+```
+
+**[Annotated via `query_snp`] **
+
+***get_batch_SNP_info(snps, input_type="rsID", eqtl_tissue="Whole_Blood")***
+
+Return information of a batch of SNPs (Annotated via `query_snp`. This method is relatively slow due to the need to access multiple databases via APIs.
+
+`snp` Required.
+`input_type` Optional. The assembly version of the input SNP. "rsID", "hg19" and "hg38" can be selected. Default is "rsID".
+`eqtl_tissue` Optional. Tissue ID of the tissue of interest. Default is "Whole_Blood".
+
+```
+batch_info_table <- get_batch_SNP_info(snps = c("rs1891906" "rs10"), input_type="rsID", eqtl_tissue="Whole_Blood")
+```
+
+##### Annotated by VEP (Linux commands - Uploaded by users)]
+
 ***---Preprocess---***
 
-Ensembl Variant Effect Predictor (VEP) is one of the most widely used Variant Annotation tools for the analysis, annotation, and prioritization of genomic variants in coding and non-coding regions. If there are many SNPs, it's better to annotate with VEP first. Below is a visualization of the VEP results.
+ If there are many SNPs, it's better to annotate with VEP command lines. Below is the preprocessor of  Linux command lines.
 
 Please annotate SNPs with the following parameters first with VEP:
 
@@ -281,7 +338,7 @@ vep --cache --dir_cache ~/SNP_visualize/  \
     --offline
 ```
 
-Then use the summary_vep.py to preprocess the VEP results:
+Then use the addition/summary_vep.py to preprocess the VEP results:
 
 ```
 python addition/summary_vep.py -i VEP_annotation.txt -o summary.txt
@@ -290,10 +347,26 @@ python addition/summary_vep.py -i VEP_annotation.txt -o summary.txt
 Load data in R:
 
 ```{r}
+# eg.
 data <- read.csv('summary.txt', header=T, sep="\t") # Your preprocessed VEP annotation file
 ```
 
-#### ***plot_batch_consequence(data, show_lines=7, colors="default")***
+**[Test Data]**
+
+```
+# SNP list 
+snp_list <- snp_test_list # # The dataset can be used directly.
+
+# Annotated data from get_batch_vep() for the following analyses and visualization
+vep_api_anno <- get_vep(snp_list, input_type = "rsID")
+
+# Uploaded example data from VEP (Linux command)
+vep_upload <- vep_upload_data  # The dataset can be used directly.
+```
+
+**[Functions for analyses and visualization] **
+
+#### ***plot_batch_consequence(data, show_num=7, data_source="API", colors="default")***
 
 Return barplots of consequences.
 
@@ -301,28 +374,50 @@ Return barplots of consequences.
 
 `show_num` Optional. The number of affected genes shown on the plot. Default is 7.
 
+`data_source` Optional. The source of the input data. "API" or "Upload" can be selected. Default is "API" (Input annotated data from get_batch_vep() function).
+
 `colors` Optional. Default is `ggsci::pal_igv(alpha = 0.8)(show_num)`.
 
 ```{r}
 plot_batch_consequence(data)
-# plot_batch_consequence(data, show_num = 10, colors = rainbow(10))
+# plot_batch_consequence(data, show_num = 10, data_source="API", olors = rainbow(10))
 ```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/plot_consequence.png)
 
-#### ***plot_affect_gene(data, plot_type="all", show_num=7)***
+***analyze_gene_go(snp_genes, output="dotplot")***
+
+ Return the go enrichment of genes.
+
+`snp_genes` Required. The annotated genes of input SNPs.
+`output_type` Optional. Show dotplot/barplot of GO enrichment results. Default is dotplot.
+
+```
+genes <- unique(vep_upload$Gene)
+analyze_gene_go(genes)
+```
+
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/analyze_go.png)
+
+#### ***plot_affect_gene(data, data_source="API", plot_type="merged", show_num=7, go_enrichment=FALSE)***
 
 Return barplots of affected genes of SNPs.
 
 `data` Required. The annotation results from VEP.
 
+`data_source` Optional. The source of the inpit data. "API" or "Upload" can be selected. Default is "API" (Input annotated data from get_batch_vep() function).
+
 `plot_type` Optional."gene", "snp", "all" and "merged" can be selected. Default is "merged".
 
 `show_num` Optional. The number of affected genes shown on the plot. Default is 7.
 
+`go_enrichment` Optional. Whether to do the GO enrichment analysis of genes. Default is FALSE. (Users can do the enrichment analysis by analyze_gwas_enrich() as well)
+
+
+
 ```{r}
 pdf("affected_genes.pdf", height = 7, width = 8)
-plot_affect_gene(data, plot_type = "merged")
+plot_affect_gene(data, data_source="Upload", go_enrichment=FALSE) # If go_enrichment is TRUE, the dotplot generated by analyze_gene_go() is returned as well
 dev.off()
 ```
 
@@ -338,7 +433,7 @@ Return a barplot of ti/tv ratio.
 
 Return boxplots of allele frequency.
 
-`data` Required. The annotation results from VEP.
+`data` Required. The annotation results from VEP. (Uploaded VEP version only)
 
 `version` Optional."1000G" or "gnomAD" can be selected. Default is "1000G".
 
@@ -348,7 +443,38 @@ plot_batch_AF(data, version = "1000G")
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/AF.png)
 
-#### ***plot_batch_cCREs(data, assembly = "hg38", show_unclassified=FALSE)***
+
+
+***analyze_ccre_enrich(snps_loc, assembly = "hg38", show_p=FALSE)***
+
+**R package `bedtoolsr` is embeded in this function and it uses bedtools to overlap, so when using `analyze_ccre_enrich`and `plot_batch_cCREs`, the user must configure the path of bedtools, for example:**
+
+```
+options(bedtools.path = "~/anaconda3/bin/")
+```
+
+`snps_lo`c Required. The genomic locations of input SNPs, the format should be like: "chr1:1014863".
+`assembly` Optional. "hg19" and hg38" can be selected. Default is "hg38".
+`show_p` Optional. Show p-values or "\*\*\*" (significant) on output plot. Default is TRUE. "\*\*\*" : P <= 1e-7; "\*\*": 1e-3 <= P < 1e-7;  "\*": 0.05 <= p < 1e-3; "NS": p > 0.05.
+
+```
+snps_loc <- unique(vep_upload$Location)
+analyze_ccre_enrich(snps_loc, assembly='hg38')
+```
+
+If p = TRUE:
+
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/analyze_ccre_1.png)
+
+
+
+If p = FALSE:
+
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/analyze_ccre_2.png)
+
+
+
+#### ***plot_batch_cCREs(snps_Loc, assembly = "hg38", show_unclassified=FALSE)***
 
 Return barplots of cCREs that SNPs overlapped.
 
@@ -358,14 +484,37 @@ Return barplots of cCREs that SNPs overlapped.
 
 `show_unclassified` Optional. Whether to display SNPs without overlapping cCREs.
 
+`enrichment` Optional. Whether to do the enrichment analysis of cCREs. Default is FALSE. (Users can do the enrichment analysis by analyze_ccre_enrich() as well)
+`show_p` Optional.Show p-values or "***" (significant) on enrichment plot. Default is FALSE.
+
+
+
 ```{r}
-plot_batch_cCREs(data,assembly = "hg38", show_unclassified=FALSE)
+plot_batch_cCREs(snps_loc, assembly = "hg38", show_unclassified=FALSE, enrichment=FALSE, show_p=FALSE)
+
+# plot_batch_cCREs(snps_loc, assembly = "hg38", show_unclassified=FALSE, enrichment=FALSE, show_p=FALSE)
 ```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/batch_cCREs.png)
 
 
-#### ***plot_batch_gwas(data, assembly="hg38", show_num=5)***
+
+***analyze_gwas_enrich(snps_loc, assembly='hg38')***
+
+Return the enrichment results of GWAS studies.
+
+`snps_loc` Required. The locations of SNPs, the format should be "chr1:1014863".
+`assembly` Optional. "hg19" and hg38" can be selected. Default is "hg38".
+
+```
+analyze_gwas_enrich(snps_loc[301:1000])
+```
+
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/analyze_gwas.png)
+
+
+
+#### ***plot_batch_gwas(snps_loc, assembly="hg38", show_num=5,  enrichment=FALSE)***
 
 Return barplots of associated GWAS phenotypes of SNPs.
 
@@ -374,6 +523,13 @@ Return barplots of associated GWAS phenotypes of SNPs.
 `assembly` Optional. The assembly version of the input SNPs. "hg19" and "hg38" can be selected. Default is "hg38". Default is "hg38".
 
 `show_num` Optional. The number of associated phenotypes shown on the plot. Default is 5.
+
+`enrichment` Optional. Whether to do the enrichment analysis of cCREs. Default is FALSE. (Users can do the enrichment analysis by analyze_ccre_enrich() as well)
+`show_p` Optional.Show p-values or "***" (significant) on enrichment plot. Default is FALSE.
+
+```
+plot_batch_gwas(snps_loc, assembly = "hg38", show_num=5, enrichment=FALSE)
+```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/batch_gwas.png)
 
@@ -390,4 +546,6 @@ gwas_data: GWAS catalog associations data.
 chrom_info_hg19: chromosome infomation (hg19).
 
 chrom_info_hg38: chromosome infomation (hg38).
+
+control_samples: The 1000,000 control SNPs for cCREs enrichment randomly downsampled from 1000 Genome Project.
 

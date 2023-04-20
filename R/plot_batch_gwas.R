@@ -1,8 +1,9 @@
 #' Return barplots of associated GWAS phenotypes of SNPs.
 #'
-#' @param data Required. The annotation results from VEP.
+#' @param snps_loc Required. snps_loc Required. The locations of SNPs, the format should be "chr1:1014863".
 #' @param assembly Optional. The assembly version of the input SNPs. "hg19" and "hg38" can be selected. Default is "hg38". Default is "hg38".
 #' @param show_num Optional. The number of associated phenotypes shown on the plot. Default is 5.
+#' @param enrichment Optional. Whether to do the enrichment analysis of GWAS studies. Default is FALSE. (Users can do the enrichment analysis by analyze_gwas_enrich() as well)
 #'
 #' @return A barplot.
 #' @export
@@ -10,15 +11,14 @@
 #' @examples
 #' plot_batch_gwas(data)
 
-
-plot_batch_gwas <- function(data, assembly="hg38", show_num=5){
+plot_batch_gwas <- function(snps_loc, assembly="hg38",show_num=5, enrichment=FALSE){
   gwas_data <- gwas_data
   colors <- pal_igv(alpha = 0.8)(show_num)
 
   if (assembly=="hg38"){
-    input_snps <- data$Location
+    input_snps <- unique(snps_loc)
   }else{
-    hg19_loc <- data$Location
+    hg19_loc <- unique(snps_loc)
     input_snps <- c()
     for (s in hg19_loc){
       input_snps <- c(input_snps, hg19tohg38(s))
@@ -50,5 +50,9 @@ plot_batch_gwas <- function(data, assembly="hg38", show_num=5){
 
   print(g)
 
-  return(gwas_df)
+  if (enrichment){
+    g2 <- analyze_gwas_enrich(snps_loc=snps_loc, assembly=assembly)
+    print(g2)
+  }
+
 }
