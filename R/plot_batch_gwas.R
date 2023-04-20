@@ -29,7 +29,8 @@ plot_batch_gwas <- function(snps_loc, assembly="hg38",show_num=5, enrichment=FAL
 
   gwas_data$location <- paste("chr", gwas_data$CHR_ID, ":", gwas_data$CHR_POS, sep="")
 
-  gwas_df <- gwas_data[gwas_data$location %in% input_snps, ]
+  gwas_df <- gwas_data[gwas_data$location %in% input_snps, c('location', 'DISEASE.TRAIT')]
+  gwas_df <- unique(gwas_df)
 
   gwas_counts <- data.frame(table(gwas_df$DISEASE.TRAIT))
   colnames(gwas_counts) <- c("Phenotype", "Freq")
