@@ -22,7 +22,7 @@ plot_batch_consequence <- function(data, show_num=7, data_source="API", colors="
     }
 
     if (data_source=="Upload"){
-      new_data <- data[, c("Uploaded_variation", "Consequence", "IMPACT")]
+      new_data <- data[, c("Uploaded_variation", "Consequence")]
       new_data <- unique(new_data)
     }else{
       new_data <- data[,c('id', 'most_severe_consequence')]

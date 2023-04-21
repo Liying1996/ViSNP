@@ -56,7 +56,7 @@ analyze_gwas_enrich <- function(snps_loc, assembly='hg38'){
   control_sd <- sd(control_num)
 
   zscore <- (input_enrich_count - control_mean) / control_sd
-  pvalue <- max(2 * pnorm(-zscore), 1)
+  pvalue <- min(2 * pnorm(-zscore), 1)
   pvalue <- signif(pvalue, 3)
 
   plot_df <- data.frame(disease=rep("ALL", 2), type=c('Input', 'Control') , Enrich=c(input_enrich_count, control_mean), sd=c(0, control_sd))
