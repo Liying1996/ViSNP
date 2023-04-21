@@ -3,6 +3,7 @@
 #' @param snp Required.
 #' @param input_type Optional. The assembly version of the input SNP. "rsID", "hg19" and "hg38" can be selected. Default is "rsID".
 #' @param eqtl_tissue Optional. Tissue ID of the tissue of interest. Default is "Whole_Blood".
+#' @param verbose Optional. Whether to show the intermediate process. Default is FALSE.
 #'
 #' @return A data.frame.
 #' @export
@@ -57,9 +58,13 @@ query_snp <- function(snp, input_type="rsID", eqtl_tissue="Whole_Blood", verbose
   linear_closest_gene_type <- res_data$data_gene[[1]]$loc
 
   linear_closest_gene_merged <- c()
-  for (i in 1:length(linear_closest_gene)){
-    new <- paste(linear_closest_gene[i], "(", linear_closest_gene_id[i], ")", sep="")
-    linear_closest_gene_merged <- c(linear_closest_gene_merged, new)
+  if (is.null(linear_closest_gene)){
+    linear_closest_gene_merged <- '-'
+  }else{
+    for (i in 1:length(linear_closest_gene)){
+      new <- paste(linear_closest_gene[i], "(", linear_closest_gene_id[i], ")", sep="")
+      linear_closest_gene_merged <- c(linear_closest_gene_merged, new)
+    }
   }
 
   linear_closest_gene_type <- paste(linear_closest_gene_type, collapse = ",")

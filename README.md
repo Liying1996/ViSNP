@@ -355,13 +355,14 @@ data <- read.csv('summary.txt', header=T, sep="\t") # Your preprocessed VEP anno
 
 ```
 # SNP list 
-snp_list <- snp_test_list # # The dataset can be used directly.
+test_snps <- test_snps # The dataset can be used directly.
+snp_list <- test_snps[,1]
 
 # Annotated data from get_batch_vep() for the following analyses and visualization
-vep_api_anno <- get_vep(snp_list, input_type = "rsID")
+test_api <- get_vep(snp_list, input_type = "rsID")
 
 # Uploaded example data from VEP (Linux command)
-vep_upload <- vep_upload_data  # The dataset can be used directly.
+test_upload <- test_upload  # The dataset can be used directly.
 ```
 
 **[Functions for analyses and visualization] **
@@ -426,6 +427,12 @@ dev.off()
 #### ***plot_batch_titv(data)***
 
 Return a barplot of ti/tv ratio.
+
+`data` The annotation results from VEP. (Uploaded VEP version only)
+
+```
+plot_batch_titv(data)
+```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/titv.png)
 
@@ -512,8 +519,6 @@ analyze_gwas_enrich(snps_loc[301:1000])
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/analyze_gwas.png)
 
-
-
 #### ***plot_batch_gwas(snps_loc, assembly="hg38", show_num=5,  enrichment=FALSE)***
 
 Return barplots of associated GWAS phenotypes of SNPs.
@@ -548,4 +553,8 @@ chrom_info_hg19: chromosome infomation (hg19).
 chrom_info_hg38: chromosome infomation (hg38).
 
 control_samples: The 1000,000 control SNPs for cCREs enrichment randomly downsampled from 1000 Genome Project.
+
+test_snps: example SNPs list.
+
+test_upload: example annotation file from VEP linux command and preprossed by addition/summary_vep.py.
 

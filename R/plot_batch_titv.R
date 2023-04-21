@@ -1,6 +1,6 @@
 #' Return a barplot of ti/tv ratio.
 #'
-#' @param data Required. The annotation results from VEP.
+#' @param data Required. The annotation results from VEP (Upload only).
 #'
 #' @return A barplot.
 #' @export
@@ -11,8 +11,10 @@
 
 
 plot_batch_titv <- function(data){
+
     allele <- str_split_fixed(unique(data$Uploaded_variation), "_", 3)[,3]
     allele_df <- data.frame(str_split_fixed(allele, "/", 2))
+
     colnames(allele_df) <- c("ref", "alt")
     ti <- (allele_df$ref=="C"&allele_df$alt=="T")|(allele_df$ref=="T"&allele_df$alt=="C")|(allele_df$ref=="G"&allele_df$alt=="A")|(allele_df$ref=="A"&allele_df$alt=="G")
 

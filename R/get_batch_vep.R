@@ -22,7 +22,12 @@ get_batch_vep <- function(snps, input_type='rsID'){
   }
 
   n <- length(snps)
-  fold <- floor(n/200)
+  mod <- n %% 200
+  if (mod == 0){
+    fold <- max(floor(n/200)-1, 0)
+  }else{
+    fold <- floor(n/200)
+  }
   res_list <- list()
   for (i in 0:fold){
     range_min <- 200*i + 1
