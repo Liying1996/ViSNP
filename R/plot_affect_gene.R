@@ -2,6 +2,7 @@
 #'
 #' @param data Required. The annotation results from VEP.
 #' @param data_source Optional. The source of the inpit data. "API" or "Upload" can be selected. Default is "API" (Input annotated data from get_batch_vep() function).
+#' @param gene Optional. The version of gene names. "Ensembl" and "Symbol" can be selected.  Default is "Ensembl".
 #' @param plot_type Optional."gene", "snp", "all" and "merged" can be selected. Default is "rsID".
 #' @param show_num Optional. The number of affected genes shown on the plot. Default is 7.
 #' @param go_enrichment Optional. Whether to do the GO enrichment analysis of genes. Default is FALSE. (Users can do the enrichment analysis by analyze_gwas_enrich() as well)
@@ -10,18 +11,19 @@
 #' @export
 #'
 #' @examples
-#' pdf("affected_genes.pdf", height = 7, width = 8)
-#' plot_affect_gene(data, plot_type = "merged")
+#' data <- test_upload
+#' pdf("affected_genes.pdf", height = 3, width = 8)
+#' plot_affect_gene(data, data_source="Upload", gene = "Symbol", plot_type = "merged")
 #' dev.off()
 
 
-plot_affect_gene <- function(data, data_source="API", plot_type="merged", show_num=7, go_enrichment=FALSE){
+plot_affect_gene <- function(data, data_source="API", gene = "Ensembl", plot_type="merged", show_num=7, go_enrichment=FALSE){
     if (!plot_type %in% c("all", "gene", "snp", "merged")){
         return(message("Invalid parameter! Please use one parameter in 'all','gene', 'snp', 'feature', 'merged'."))
     }
 
     if (data_source=="Upload"){
-      new_data <- data[, c("Uploaded_variation", "Gene")]
+      new_data <- data[, c("Existing_variation", "Gene")]
       new_data <- unique(new_data)
       colnames(new_data) <- c('SNP', 'Gene')
       unaffect_num <- sum(new_data$Gene == '-')
@@ -49,17 +51,30 @@ plot_affect_gene <- function(data, data_source="API", plot_type="merged", show_n
     g1 <- ggplot(data = genes_df, aes(x = type, y = freq, fill = type)) + geom_bar(stat = "identity") +
         scale_fill_jco() +
         guides(fill = guide_legend(title=NULL)) +
-        labs(x = "Affected Genes Frequency", y = "Frequency") +
+        labs(x = "", y = "Frequency") +
         theme_snp() +
-        theme(plot.title = element_text(hjust = 0.5, size = 12)) +
+        theme(axis.title = element_text(size = 11), axis.text = element_text(size = 9)) +
+        theme(plot.title = element_text(hjust = 0.5, size = 11)) +
         labs(title = "Summay of affected genes")
 
     new_genes <- new_data[new_data$Gene != "-", ]
     new_genes <- data.frame(table(new_genes$Gene))
     colnames(new_genes) <- c('Gene', 'Freq')
+
+    if (gene == "Symbol"){
+      gene_symbols <- bitr(new_genes$Gene, fromType="ENSEMBL", toType=c("SYMBOL"), OrgDb="org.Hs.eg.db")
+      # new_genes <- new_genes[new_genes$Gene %in% gene_symbols$ENSEMBL, ]
+      tmp_data <- merge(new_genes, gene_symbols, by.x="Gene", by.y="ENSEMBL")
+      new_genes <- tmp_data[,c('SYMBOL', 'Freq')]
+      colnames(new_genes) <- c('Gene', 'Freq')
+
+    }
+
     new_genes <- new_genes[order(new_genes$Freq, decreasing = T), ]
-    new_genes$Gene <- factor(new_genes$Gene, levels=rev(new_genes$Gene))
+    new_genes <- unique(new_genes)
     new_genes <- new_genes[1:show_num,]
+    new_genes$Gene <- factor(new_genes$Gene, levels=rev(new_genes$Gene))
+
     g2 <- ggplot(new_genes, aes(x = Gene, y = Freq, fill = Gene)) + geom_bar(stat = "identity") +
         coord_flip() +
         guides(fill = "none") +
@@ -74,6 +89,7 @@ plot_affect_gene <- function(data, data_source="API", plot_type="merged", show_n
     new_SNPs <- new_data[new_data$Gene != "-", ]
     new_SNPs <- data.frame(table(new_SNPs$SNP))
     colnames(new_SNPs) <- c("SNP", "Freq")
+    new_SNPs$SNP <- str_split_fixed(new_SNPs$SNP, ',', 2)[,1]
     new_SNPs <- new_SNPs[order(new_SNPs$SNP, decreasing = T), ]
     new_SNPs <- new_SNPs[1:show_num,]
     new_SNPs <- new_SNPs[order(new_SNPs$Freq, decreasing = F), ]
@@ -114,7 +130,7 @@ plot_affect_gene <- function(data, data_source="API", plot_type="merged", show_n
     }else if (plot_type=="feature"){
         print(g3)
     }else{
-        grid.arrange(g1, g2, g3, ncol=2)
+        grid.arrange(g1, g2, g3, nrow=1)
     }
 
     if (go_enrichment){

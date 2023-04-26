@@ -43,13 +43,15 @@ plot_batch_gwas <- function(snps_loc, assembly="hg38",show_num=5, enrichment=FAL
       coord_flip() +
       guides(fill = "none") +
       labs(y = "Frequency") +
-      theme_snp() +
       labs(title = "Associated GWAS phenotypes") +
-      theme(axis.text.x = element_text(vjust=0.5)) +
+      theme_bw() +
+      theme(axis.text = element_text(size=10), axis.text.x = element_text(vjust=0.5)) +
+      theme(plot.title = element_text(hjust = 0.5, size=16)) +
       scale_fill_manual(values=colors) +
-      scale_x_discrete(labels=function(x) str_wrap(x, width=10))
+      scale_x_discrete(labels=function(x) str_wrap(x, width=20))
 
   print(g)
+  return(g)
 
   if (enrichment){
     g2 <- analyze_gwas_enrich(snps_loc=snps_loc, assembly=assembly)

@@ -20,13 +20,13 @@ analyze_gene_go <- function(snp_genes, output_type="dotplot"){
     break
   }
   if (output_type == "dotplot"){
-    g <- dotplot(go,showCategory=10, title="Go enrichment Dotplot") +
-      scale_y_discrete(labels=function(x) str_wrap(x, width=20)) +
-      theme(plot.title = element_text(hjust = 0.5, size=20))
+    g <- dotplot(go,showCategory=7, title="Go enrichment Dotplot") +
+      scale_y_discrete(labels=function(x) str_wrap(x, width=25)) +
+      theme(plot.title = element_text(hjust = 0.5, size=14), axis.text.y = element_text(size=10))
   }else{
-    g <- barplot(go,showCategory=7, drop=T,title  = "Go enrichment Barplot",font.size = 15) +
+    g <- barplot(go,showCategory=7, drop=T,title  = "Go enrichment Barplot") +
     scale_y_discrete(labels=function(x) str_wrap(x, width=20)) +
-      theme(plot.title = element_text(hjust = 0.5, size=20))
+      theme(plot.title = element_text(hjust = 0.5, size=16), axis.text.y = element_text(size=8))
   }
   return(g)
 }

@@ -52,7 +52,8 @@ plot_batch_AF <- function(data, version="1000G"){
             scale_fill_jco() +
             labs(x = "Population", y  = "Allele Frequency", title = "Allele Frequency in different population") +
             theme_snp() +
-            theme(axis.text.x = element_text(angle = 45, hjust = 1))
+            theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+            theme(plot.title=element_text(hjust = 0.5, size=16)) +
             guides(fill = guide_legend(NULL))
     }
     print(g)

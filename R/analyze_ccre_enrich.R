@@ -136,15 +136,17 @@ analyze_ccre_enrich <- function(snps_loc, assembly='hg38', show_p=FALSE){
     melt_df$type2 <- factor(melt_df$type2, levels = c("cCRE", "dELS", "pELS", "PLS", "DNase.H3K4me3", "CTCF.only"))
     g <- ggplot() +
     geom_bar(data=melt_df,aes(x=type2, y=mean, fill=type1), stat="identity", position = position_dodge(0.6)) +
-    geom_errorbar(data=melt_df, aes(x=type2, ymin=mean-sd, ymax=mean+sd, color=type1), stat='identity', position = position_dodge(0.6), width=0.2) +
+    geom_errorbar(data=melt_df, aes(x=type2, ymin=mean-sd, ymax=mean+sd, color=type1, alpha=type1), stat='identity', position = position_dodge(0.6), width=0.2) +
       scale_color_manual(values = c('white', 'black')) +
+      scale_alpha_manual(values = c(0, 0.9)) +
       scale_fill_igv() +
-    guides(fill=guide_legend(NULL), color=guide_legend(NULL)) +
+    guides(fill=guide_legend(NULL), color=guide_legend(NULL), alpha="none") +
     geom_segment(data=segments, aes(x=x1, y=y1, xend=x2, yend=y2)) +
     annotate('text', x=1:6,y=text_loc_y,label=show_label) +
-    labs(x = '', y = 'Frequency') +
+    labs(x = '', y = 'Frequency', title="cCRE enrichment") +
     theme_bw() +
-    theme(axis.title = element_text(size=15), axis.text = element_text(size=12))
+    theme(axis.title = element_text(size=14), axis.text = element_text(size=9)) +
+    theme(plot.title = element_text(hjust = 0.5, size=16))
 
     return(g)
 }
