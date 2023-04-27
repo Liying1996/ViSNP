@@ -463,6 +463,18 @@ plot_batch_AF(test_upload, version = "1000G")
 options(bedtools.path = "~/anaconda3/bin/")
 ```
 
+Simulation enrichment  is used to test whether the input SNPs are enriched in cCREs. 
+
+Method:
+
+1). Randomly select the same number of SNPs as input SNPs from 1000Genome as control ( 1 million SNPs randomly selected from 1000 Genome were used and embeded in Vi-SNP in order to speed up the test);
+
+2). Calculate the number of input and control SNPs enriched in each cCRE;
+
+3). For each cCRE, calculate the Z-score. Z-score = (the number of input SNPs enriched in the cCRE - mean number of control SNPs enriched in the cCRE) / (standard deviation of control SNPs enriched in the cCRE);
+
+4). Calculate P-values. P = 2 * pnorm(-Zscore)
+
 `snps_loc` Required. The genomic locations of input SNPs, the format should be like: "chr1:1014863".
 `assembly` Optional. "hg19" and hg38" can be selected. Default is "hg38".
 `show_p` Optional. Show p-values or "\*\*\*" (significant) on output plot. Default is TRUE. "\*\*\*" : P <= 1e-7; "\*\*": 1e-3 <= P < 1e-7;  "\*": 0.05 <= p < 1e-3; "NS": p > 0.05.
