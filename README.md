@@ -463,7 +463,7 @@ plot_batch_AF(test_upload, version = "1000G")
 options(bedtools.path = "~/anaconda3/bin/")
 ```
 
-`snps_lo`c Required. The genomic locations of input SNPs, the format should be like: "chr1:1014863".
+`snps_loc` Required. The genomic locations of input SNPs, the format should be like: "chr1:1014863".
 `assembly` Optional. "hg19" and hg38" can be selected. Default is "hg38".
 `show_p` Optional. Show p-values or "\*\*\*" (significant) on output plot. Default is TRUE. "\*\*\*" : P <= 1e-7; "\*\*": 1e-3 <= P < 1e-7;  "\*": 0.05 <= p < 1e-3; "NS": p > 0.05.
 
