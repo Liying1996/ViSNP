@@ -573,7 +573,7 @@ chrom_info_hg19: chromosome infomation (hg19).
 
 chrom_info_hg38: chromosome infomation (hg38).
 
-control_samples: The 1000,000 control SNPs for cCREs enrichment randomly downsampled from 1000 Genome Project.
+control_samples: The 1000,000 control SNPs for simulation enrichment randomly downsampled from 1000 Genome Project.
 
 test_snps: example SNPs list.
 
