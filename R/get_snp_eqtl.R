@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-#' gtex_data <- get_snp_eqtl(snp, eqtl_tissue = "Whole_Blood")
+#' gtex_data <- get_snp_eqtl(snp="rs10040658", eqtl_tissue = "Whole_Blood")
 
 
 get_snp_eqtl <- function(snp, input_type="rsID", eqtl_tissue="Whole_Blood"){
