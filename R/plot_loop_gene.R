@@ -252,7 +252,7 @@ plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_
   segments <- add_row(segments, segments_gene)
   segments <- segments[!duplicated(segments),]
   # pdf("~/Documents/Vi-SNP/Frontier/links_gene2.pdf", width=5, height = 6)
-  ggplot() + geom_segment(data = sequence, aes(x=x1, y=y1, xend=x2, yend=y2), color="black", alpha=0.7) +
+  g <- ggplot() + geom_segment(data = sequence, aes(x=x1, y=y1, xend=x2, yend=y2), color="black", alpha=0.7) +
     geom_segment(data=segments, aes(x=x1, y=y1, xend=x2, yend=y2, color=color), alpha=0.7, size=2) +
     geom_point(data = snp_input_total, aes(x=x, y=y), shape=18, color="#F75000", size=3) +
     geom_point(data = seq_label, aes(x=x, y=y), shape="I", size=1.5) +
@@ -271,5 +271,5 @@ plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_
       axis.ticks=element_blank()) +
     theme(plot.title = element_text(hjust=0.5))
   # dev.off()
-
+  return(g)
 }

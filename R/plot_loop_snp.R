@@ -229,7 +229,7 @@ plot_loop_snp <- function(snp, input_type="rsID", pop, output_assembly="hg19", s
   tmp_df <- data.frame(snp_text_x=snp_text_x, snp_text_y=snp_text_y, snp_text_label=snp_text_label)
   tmp_df <- tmp_df[!duplicated(tmp_df),]
 
-  ggplot() + geom_segment(data = sequence, aes(x=x1, y=y1, xend=x2, yend=y2), color="black", alpha=0.7) +
+  g <- ggplot() + geom_segment(data = sequence, aes(x=x1, y=y1, xend=x2, yend=y2), color="black", alpha=0.7) +
     geom_segment(data=segments, aes(x=x1, y=y1, xend=x2, yend=y2, color=color), alpha=0.7, size=2) +
     geom_point(data = snp_input_total, aes(x=x, y=y), shape=18, color="#F75000", size=3) +
     geom_point(data = points_B, aes(x=x, y=y), shape=18, color="#00A600", size=3) +
@@ -247,5 +247,7 @@ plot_loop_snp <- function(snp, input_type="rsID", pop, output_assembly="hg19", s
       axis.text=element_blank(),
       axis.ticks=element_blank()) +
     theme(plot.title = element_text(hjust=0.5))
+
+  return(g)
 
 }

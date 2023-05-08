@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' plot_snp_motif(snp="rs1059196")
+#' plot_snp_motif(snp="rs10040658")
 
 
 plot_snp_motif <- function(snp, input_type="rsID", tf="all"){
@@ -66,12 +66,12 @@ plot_snp_motif <- function(snp, input_type="rsID", tf="all"){
     if (i == 1){
       seq_axis = tibble(
         x = seq(0, seq_n-1),
-        y = rep(i - 0.18, seq(n))
+        y = rep(i - 0.18, seq_n)
       )
     }else{
       seq_axis = add_row(seq_axis, tibble(
         x = seq(0, seq_n-1),
-        y = rep(1 * i - 0.18, seq(n))
+        y = rep(1 * i - 0.18, seq_n)
       ))
     }
   }
@@ -89,7 +89,7 @@ plot_snp_motif <- function(snp, input_type="rsID", tf="all"){
   motif_y <- seq(1, nrow(motifs)) + 0.35
 
 
-  ggplot() +
+  g <- ggplot() +
     geom_segment(data=segments, aes(x=x1, y=y1, xend=x2, yend=y2), color="black", alpha=0.7) +
     annotate("text", x=seq_x, y=seq_y , label=seq_label, size=6, color=seq_col) +
     annotate("text", x=motif_x, y=motif_y , label=paste(motif_names, "(", motif_strand, ")", sep=" "), size=5) +
@@ -102,4 +102,6 @@ plot_snp_motif <- function(snp, input_type="rsID", tf="all"){
       axis.text=element_blank(),
       axis.ticks=element_blank()) +
     theme(plot.title = element_text(hjust=0.5, size=18))
+
+  return(g)
 }

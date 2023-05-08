@@ -20,11 +20,16 @@ Workflow.
 
 ### **4.1 For single SNP**
 
-#### ***query_snp(snp, input_type="rsID", eqtl_tissue="Whole_Blood")***
+#### ***query_snp(snp, input_type="rsID", eqtl_tissue="Whole_Blood", verbose=FALSE)***
 
 `query_snp` output the basic and functional information of a SNP.
 
-Input_type: "rsID", "hg19" or "hg38". If "hg19" or "hg38" was selected, the ***snp*** should be "chr22:19712094". (All genomic locations should be 1-based.) eqtl_tissue: Tissue ID of the tissue of GTEx.
+`input_type`: "rsID", "hg19" or "hg38". If "hg19" or "hg38" was selected, the ***snp*** should be "chr22:19712094". (All genomic locations should be 1-based.) `eqtl_tissue`: Tissue ID of the tissue of GTEx.
+
+`verbose`: Whether to show the intermediate process. Default is FALSE.
+
+
+
 
 ```{r}
 info_table <- query_snp("rs1891906")
@@ -120,13 +125,19 @@ get_snp_motif("chr1:109676139", "hg38")
 
 
 
-***plot_snp_motif(snp, input_type="rsID")***
+***plot_snp_motif(snp, input_type="rsID", tf='all')***
 
 ```
-plot_snp_motif(snp="rs1059196")
+plot_snp_motif(snp="rs10040658")
 ```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/6_plot_snp_motif.jpg)
+
+```
+plot_snp_motif(snp="rs10040658", tf=c('AP2alpha', 'CHCH_01'))
+```
+
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/6_plot_snp_motif2.jpg)
 
 #### ***get_loop_gene(snp, input_type="rsID",  output_type="core")***
 
@@ -146,10 +157,16 @@ loop_genes <- get_loop_gene("rs1059196", output_type="full")
 `show_cells` Optional. The number of cell types shown in the figure. Default is 3 (Top 3 cell types). The names of cell types are available as well.
 
 ```
-plot_loop_gene(snp="rs10", output_assembly='hg38', show_cells=c("VentricleLeft", "Caki2", "HepG2"))
+plot_loop_gene(snp="rs4942486", output_assembly='hg38', show_cells=c("VentricleLeft", "Caki2", "HepG2"))
 ```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/11_plot_loop_gene.jpg)
+
+```
+plot_loop_gene(snp="rs10040658", output_assembly='hg38', show_cells=c("GM12878", "A549"))
+```
+
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/11_plot_loop_gene2.jpg)
 
 #### ***get_loop_snp(snp, input_type="rsID",  output_type="core")***
 
@@ -171,7 +188,15 @@ loop_snps <- get_loop_snp("rs1059196")
 `show_cells` Optional. The number of cell types shown in the figure. Default is 3 (Top 3 cell types). The names of cell types are available as well.
 
 ```
- plot_loop_snp(snp=”rs10“, pop = pop, show_cells = c("Ventricle_Right", "Spleen"))
+plot_loop_snp(snp='rs10040658', pop = 'AFR', show_cells = c("GM12878", "Lung", "Caki2"))
+
+
+```
+
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/11_plot_loop_snp2.jpg)
+
+```
+plot_loop_snp(snp='rs10', pop = 'AFR', show_cells = c("Bladder", "Spleen"))
 ```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/11_plot_loop_snp.jpg)
@@ -258,12 +283,27 @@ plot_snp_circos(snp_info_table=info_table, window_size = 1e5, savefile="~/test/c
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/9_circos.png)
 
-***plot_snp_network(snp, input_type = "rsID", colors="default")***
+```
+info_table <- query_snp("rs10040658")
+plot_snp_circos(snp_info_table=info_table, savefile="~/test/circos3.pdf")
+```
+
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/9_circos2.jpg)
+
+
+
+***plot_snp_network(snp, input_type = "rsID", cells = "all", pop, tissue_type="Whole_Blood", colors="default")***
 
 `colors` Optional. Vectors with 6 colors. "default" is `brewer.pal(6, "Set1")`.
 
 ```
-plot_snp_network(snp="rs1059196")
+plot_snp_network(snp="rs10040658", pop='EAS', cells=c("A549", "K562", "Caki2", "GM12878", "LNCAP"))
+```
+
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/12_plot_networks2.jpg)
+
+```
+plot_snp_network(snp="rs1059196", pop='EAS')
 ```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/12_plot_networks.jpg)

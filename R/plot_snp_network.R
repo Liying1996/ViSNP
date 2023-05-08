@@ -33,12 +33,12 @@ plot_snp_network <- function(snp, input_type = "rsID", cells = "all", pop, tissu
   loop_genes <- loop_genes[complete.cases(loop_genes),]
   loop_snps <- get_loop_snp(snp)
   loop_snps <- loop_snps[loop_snps$type==pop,]
-  loop_snps <- loop_snps[complete.cases(loop_snps),]
-  # loop_snps <- loop_snps[loop_snps$cell %in% c("A549", "K562", "Caki2", "GM12878", "LNCAP"),]
-
-  if (nrow(loop_snps)>7){
-    loop_snps <- loop_snps[1:7,]
+  loop_snps <- unique(loop_snps[complete.cases(loop_snps), 3:ncol(loop_snps)])
+  if (cells !="all"){
+    loop_snps <- loop_snps[loop_snps$cell %in% cells,]
   }
+
+
   eqtl_info <- get_snp_eqtl(snp, eqtl_tissue = tissue_type)
 
   nodes_gwasid <- gwas_info$PUBMEDID
