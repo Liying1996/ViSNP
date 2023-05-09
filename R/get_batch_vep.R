@@ -12,15 +12,18 @@ get_batch_vep <- function(snps, input_type='rsID'){
   snps <- unique(str_split_fixed(snps, ',', 2)[,1]) # eg. "rs11074135,COSV61234901"
 
   if (input_type=="hg38"){
-    snps <- c()
+    new_snps <- c()
     for (snp in snps){
-      snps <- c(snps, get_snp_rsID(snp, assembly = "hg38"))
+      new_snps <- c(new_snps, get_snp_rsID(snp, assembly = "hg38"))
     }
   }else if(input_type=="hg19"){
-    snps <- c()
-    snps <-  c(snps, get_snp_rsID(snp, assembly = "hg19"))
+    new_snps <- c()
+    for (snp in snps){
+      new_snps <-  c(new_snps, get_snp_rsID(snp, assembly = "hg19"))
+    }
   }
 
+  snps <- new_snps
   n <- length(snps)
   mod <- n %% 200
   if (mod == 0){
@@ -38,7 +41,6 @@ get_batch_vep <- function(snps, input_type='rsID'){
     }
     snps_curr <- snps[range_min:range_max]
     res <- POST("https://rest.ensembl.org/vep/human/id", content_type("application/json"), accept("application/json"), body = paste('{ "ids" : [ "', paste(snps_curr, collapse = '","'), '" ] }', sep=''))
-    # r <- POST(paste("https://rest.ensembl.org/vep/human/id", sep = ""), content_type("application/json"), accept("application/json"), body = '{ "ids" : ["rs56116432", "COSM476" ] ， "GO":["1"]}')
     res_data = fromJSON(rawToChar(res$content))
     res_list[[i+1]] <- res_data
 }

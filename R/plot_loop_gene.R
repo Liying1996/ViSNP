@@ -11,7 +11,7 @@
 #' @examples
 #' plot_loop_gene(snp="rs10")
 #' plot_loop_gene(snp="rs10", output_assembly='hg38', show_cells=c("VentricleLeft", "Caki2", "HepG2"))
-#' plot_loop_gene(snp="rs10040658", show_cells=c("GM12878", "A549"))
+#' plot_loop_gene(snp="rs10040658", show_cells=c("GM12878", "HepG2"))
 
 plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_cells=3){
 

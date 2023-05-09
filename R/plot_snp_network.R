@@ -2,6 +2,9 @@
 #'
 #' @param snp Required.
 #' @param input_type Optional. The assembly version of the input SNP. "rsID", "hg19" and "hg38" can be selected. Default is "rsID".
+#' @param cells Optional. The output cells. Default is "all".
+#' @param pop Required. Population.
+#' @param tissue_type Optional. The tissue of interest (for eQTLs). Default is "Whole_Blood".. Default is "Whole_Blood".
 #' @param colors Optional. Vectors with 6 colors. "default" is `brewer.pal(6, "Set1")`.
 #'
 #' @return A Graph.
@@ -34,7 +37,7 @@ plot_snp_network <- function(snp, input_type = "rsID", cells = "all", pop, tissu
   loop_snps <- get_loop_snp(snp)
   loop_snps <- loop_snps[loop_snps$type==pop,]
   loop_snps <- unique(loop_snps[complete.cases(loop_snps), 3:ncol(loop_snps)])
-  if (cells !="all"){
+  if (cells[1] !="all"){
     loop_snps <- loop_snps[loop_snps$cell %in% cells,]
   }
 

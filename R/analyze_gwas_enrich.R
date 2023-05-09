@@ -64,7 +64,7 @@ analyze_gwas_enrich <- function(snps_loc, assembly='hg38', show_p=FALSE){
 
   plot_df$type <- factor(plot_df$type, levels=c('Input', 'Control'))
 
-  if (shpw_p){
+  if (show_p){
     g <- ggplot(plot_df,aes(type, Enrich, fill=type)) +
       geom_bar(stat="identity") +
       geom_errorbar(aes(ymin=Enrich-sd, ymax=Enrich+sd, alpha=type), width=0.4, color=c('white', 'black')) +

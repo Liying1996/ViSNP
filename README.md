@@ -157,16 +157,16 @@ loop_genes <- get_loop_gene("rs1059196", output_type="full")
 `show_cells` Optional. The number of cell types shown in the figure. Default is 3 (Top 3 cell types). The names of cell types are available as well.
 
 ```
+plot_loop_gene(snp="rs10040658", output_assembly='hg19', show_cells=c("GM12878", "K562"))
+```
+
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/11_plot_loop_gene2.jpg)
+
+```
 plot_loop_gene(snp="rs4942486", output_assembly='hg38', show_cells=c("VentricleLeft", "Caki2", "HepG2"))
 ```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/11_plot_loop_gene.jpg)
-
-```
-plot_loop_gene(snp="rs10040658", output_assembly='hg38', show_cells=c("GM12878", "A549"))
-```
-
-![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/11_plot_loop_gene2.jpg)
 
 #### ***get_loop_snp(snp, input_type="rsID",  output_type="core")***
 
@@ -338,10 +338,11 @@ Ensembl Variant Effect Predictor (VEP) is one of the most widely used Variant An
 `input_type` Optional. The type of the input SNP. "rsID", hg19" or "hg38" can be selected. Default is "rsID".
 
 ```
-vep_anno <- get_vep(c("rs56116432", "rs10040658"), input_type = "rsID")
+vep_anno <- get_batch_vep(c("rs56116432", "rs10040658"), input_type = "rsID")
 
-snps <- unique(data$Existing_variation)
-api_anno <- get_vep(snps, input_type = "rsID")
+# get_batch_vep(snps=c("chr9:136131429", "chr5:139051015"), input_type = 'hg19')
+
+# get_batch_vep(snps=c("chr9:133256042", "chr5:139671430"), input_type = 'hg38')
 ```
 
 **[Annotated via `query_snp`] **
@@ -355,10 +356,12 @@ Return information of a batch of SNPs (Annotated via `query_snp`. This method is
 `eqtl_tissue` Optional. Tissue ID of the tissue of interest. Default is "Whole_Blood".
 
 ```
-batch_info_table <- get_batch_SNP_info(snps = c("rs1891906" "rs10"), input_type="rsID", eqtl_tissue="Whole_Blood")
+batch_info_table <- get_batch_SNP_info(snps = c("rs1891906", "rs10"), input_type="rsID", eqtl_tissue="Whole_Blood")
+
+# batch_info_table <- get_batch_SNP_info(snps = c("chr1:1014863", "chr7:92754574"), input_type="hg38", eqtl_tissue="Whole_Blood")
 ```
 
-##### Annotated by VEP (Linux commands - Uploaded by users)]
+##### [Annotated by VEP (Linux commands - Uploaded by users)]
 
 ***---Preprocess---***
 
@@ -367,9 +370,14 @@ batch_info_table <- get_batch_SNP_info(snps = c("rs1891906" "rs10"), input_type=
 Please annotate SNPs with the following parameters first with VEP:
 
 ```
+# Manually downloading caches
+# cd ~/SNP_visualize/
+# curl -O https://ftp.ensembl.org/pub/release-105/variation/vep/homo_sapiens_vep_105_GRCh38.tar.gz
+# tar xzf homo_sapiens_vep_109_GRCh38.tar.gz
+
 vep --cache --dir_cache ~/SNP_visualize/  \
     --fasta ~/reference/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz \
-    -i test.vcf \
+    -i test.vcf \  # Your VCF file
     -o VEP_annotation.txt \
     --var_synonyms \
     --af --af_1kg --af_esp \
@@ -465,7 +473,7 @@ plot_affect_gene(data=test_upload, data_source="Upload", gene = "Symbol", go_enr
 dev.off()
 ```
 
-![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/plot_affect_gene.png)
+![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/plot_affect_gene.jpg)
 
 #### ***plot_batch_titv(data)***
 
@@ -559,7 +567,7 @@ Return barplots of cCREs that SNPs overlapped.
 ```{r}
 plot_batch_cCREs(snps_loc, assembly = "hg38", show_unclassified=FALSE, enrichment=FALSE, show_p=FALSE)
 
-# plot_batch_cCREs(snps_loc, assembly = "hg38", show_unclassified=FALSE, enrichment=FALSE, show_p=FALSE)
+# plot_batch_cCREs(snps_loc, assembly = "hg38", show_unclassified=FALSE, enrichment=TRUE, show_p=FALSE)
 ```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/batch_cCREs.png)
