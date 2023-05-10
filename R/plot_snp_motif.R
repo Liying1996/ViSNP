@@ -2,6 +2,7 @@
 #'
 #' @param snp Required.
 #' @param input_type Optional. The assembly version of the input SNP. "rsID", "hg19" and "hg38" can be selected. Default is "rsID".
+#' @param tf Optional. to be displayed. Default is "all".
 #'
 #' @return A plot.
 #' @export

@@ -24,8 +24,8 @@ Workflow.
 
 `query_snp` output the basic and functional information of a SNP.
 
-`input_type`: "rsID", "hg19" or "hg38". If "hg19" or "hg38" was selected, the ***snp*** should be "chr22:19712094". (All genomic locations should be 1-based.) `eqtl_tissue`: Tissue ID of the tissue of GTEx. All the tissues: https://gtexportal.org/api/v2/redoc#tag/Static-Association-Endpoints/operation/get_significant_single_tissue_eqtls_by_location_api_v2_association_singleTissueEqtlByLocation_get tissueSiteDetailId.
-
+`input_type`: "rsID", "hg19" or "hg38". If "hg19" or "hg38" was selected, the ***snp*** should be "chr22:19712094". (All genomic locations should be 1-based.) 
+`eqtl_tissue`: Tissue ID of the tissue of GTEx. All the tissues: https://gtexportal.org/api/v2/redoc#tag/Static-Association-Endpoints/operation/get_significant_single_tissue_eqtls_by_location_api_v2_association_singleTissueEqtlByLocation_get tissueSiteDetailId.
 `verbose`: Whether to show the intermediate process. Default is FALSE.
 
 
