@@ -108,8 +108,8 @@ gwas_info <- get_snp_gwas("rs1891906")
 
 Return GTEx significant single tissue eQTLs.
 
-```{r}
-gtex_data <- get_snp_eqtl("rs7524908", eqtl_tissue = "Whole_Blood")
+```
+gtex_data <- get_snp_eqtl("rs10040658", eqtl_tissue = "Whole_Blood")
 ```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/5_get_snp_eqtl.png)
