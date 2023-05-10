@@ -10,6 +10,8 @@ plot_snp_motif(snp, input_type = "rsID", tf = "all")
 \item{snp}{Required.}
 
 \item{input_type}{Optional. The assembly version of the input SNP. "rsID", "hg19" and "hg38" can be selected. Default is "rsID".}
+
+\item{tf}{Optional. to be displayed. Default is "all".}
 }
 \value{
 A plot.

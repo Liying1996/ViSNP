@@ -4,6 +4,7 @@
 #' @param input_type Optional. The assembly version of the input SNP. "rsID", "hg19" and "hg38" can be selected. Default is "rsID".
 #' @param output_assembly Optional. The UCSC Assembly versions of chromosome coordinates of outputs. "hg19" or "hg38" can be selected. Default is "hg19".
 #' @param show_cells Optional. The number of cell types shown in the figure. Default is 3 (Top 3 cell types). The names of cell types are available as well.
+#' @param curvature Optional. The "curvature" parameter of `geom_curve`. Default is "0.8".
 #'
 #' @return A plot.
 #' @export
@@ -13,7 +14,7 @@
 #' plot_loop_gene(snp="rs10", output_assembly='hg38', show_cells=c("VentricleLeft", "Caki2", "HepG2"))
 #' plot_loop_gene(snp="rs10040658", show_cells=c("GM12878", "HepG2"))
 
-plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_cells=3){
+plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_cells=3, curvature=0.8){
 
   if  (!input_type %in% c("rsID", "hg19", "hg38")){
     return(message("Please select 1 input type from rsID, hg19 or hg38!"))
@@ -256,7 +257,7 @@ plot_loop_gene <- function(snp, input_type="rsID", output_assembly="hg19", show_
     geom_segment(data=segments, aes(x=x1, y=y1, xend=x2, yend=y2, color=color), alpha=0.7, size=2) +
     geom_point(data = snp_input_total, aes(x=x, y=y), shape=18, color="#F75000", size=3) +
     geom_point(data = seq_label, aes(x=x, y=y), shape="I", size=1.5) +
-    geom_curve(data = arrows, aes(x=x1, y=y1, xend=x2, yend=y2), arrow = arrow(length = unit(0.01, "npc")), size = 0.5, color="purple", curvature=0.7) +
+    geom_curve(data = arrows, aes(x=x1, y=y1, xend=x2, yend=y2), arrow = arrow(length = unit(0.01, "npc")), size = 0.5, color="purple", curvature=curvature) +
     annotate("text", x=tmp_df$gene_text_x, y=tmp_df$gene_text_y , label=tmp_df$gene_text_label, size=2, color="black", angle=45, alpha=0.6) +
     annotate("text", x=rep(0.6, length(cell_types)), y=0.7+2*c(1:length(cell_types)), label=cell_types, size=3.5) +
     annotate("text", x=10, y=1.3, label="Mb", size=3) +

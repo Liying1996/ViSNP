@@ -151,11 +151,13 @@ loop_genes <- get_loop_gene("rs1059196", output_type="full")
 ```
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/11_loop_genes.jpg)
 
-***plot_loop_gene(snp, input_type="rsID", output_assembly="hg19", show_cells=3)***
+***plot_loop_gene(snp, input_type="rsID", output_assembly="hg19", show_cells=3, curvature=0.8)***
 
 `output_assembly` Optional. The UCSC Assembly versions of chromosome coordinates of outputs. "hg19" or "hg38" can be selected. Default is "hg19".
 
 `show_cells` Optional. The number of cell types shown in the figure. Default is 3 (Top 3 cell types). The names of cell types are available as well.
+
+`curvature` Optional. The "curvature" parameter of `geom_curve`. Default is "0.8".
 
 ```
 plot_loop_gene(snp="rs10040658", output_assembly='hg19', show_cells=c("GM12878", "K562"))
@@ -164,7 +166,7 @@ plot_loop_gene(snp="rs10040658", output_assembly='hg19', show_cells=c("GM12878",
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/11_plot_loop_gene2.jpg)
 
 ```
-plot_loop_gene(snp="rs4942486", output_assembly='hg38', show_cells=c("VentricleLeft", "Caki2", "HepG2"))
+plot_loop_gene(snp="rs4942486", output_assembly='hg19', show_cells=c("VentricleLeft", "Caki2", "HepG2"), curvature=-0.3)
 ```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/11_plot_loop_gene.jpg)
@@ -188,9 +190,10 @@ loop_snps <- get_loop_snp("rs1059196")
 
 `show_cells` Optional. The number of cell types shown in the figure. Default is 3 (Top 3 cell types). The names of cell types are available as well.
 
+`curvature` Optional. The "curvature" parameter of `geom_curve`. Default is "0.8".
+
 ```
 plot_loop_snp(snp='rs10040658', pop = 'AFR', show_cells = c("GM12878", "Lung", "Caki2"))
-
 
 ```
 

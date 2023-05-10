@@ -8,7 +8,8 @@ plot_loop_gene(
   snp,
   input_type = "rsID",
   output_assembly = "hg19",
-  show_cells = 3
+  show_cells = 3,
+  curvature = 0.8
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ plot_loop_gene(
 \item{output_assembly}{Optional. The UCSC Assembly versions of chromosome coordinates of outputs. "hg19" or "hg38" can be selected. Default is "hg19".}
 
 \item{show_cells}{Optional. The number of cell types shown in the figure. Default is 3 (Top 3 cell types). The names of cell types are available as well.}
+
+\item{curvature}{Optional. The "curvature" parameter of `geom_curve`. Default is "0.8".}
 }
 \value{
 A plot.
