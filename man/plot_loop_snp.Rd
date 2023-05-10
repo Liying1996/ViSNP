@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_loop_snp.R
 \name{plot_loop_snp}
 \alias{plot_loop_snp}
-\title{Return 3D-interating SNPs.}
+\title{Plot 3D-interating SNPs.}
 \usage{
 plot_loop_snp(
   snp,
@@ -19,7 +19,7 @@ plot_loop_snp(
 
 \item{pop}{Required. Population.}
 
-\item{output_assembly}{Optional. The UCSC Assembly versions of chromosome coordinates of SNPs. "hg19" or "hg38" can be selected. Default is "hg19".}
+\item{output_assembly}{Optional. The UCSC Assembly versions of chromosome coordinates of outputs. "hg19" or "hg38" can be selected. Default is "hg19".}
 
 \item{show_cells}{Optional. The number of cell types shown in the figure. Default is 3 (Top 3 cell types). The names of cell types are available as well.}
 }
@@ -27,10 +27,11 @@ plot_loop_snp(
 A plot.
 }
 \description{
-Return 3D-interating SNPs.
+Plot 3D-interating SNPs.
 }
 \examples{
 plot_loop_snp(snp="rs10", pop="AFR")
 plot_loop_snp(snp="rs10", pop="AFR", output_assembly='hg38')
-plot_loop_snp(snp=”rs10“, pop = pop, show_cells = c("Ventricle_Right", "Spleen"))
+plot_loop_snp(snp="rs10", pop = pop, show_cells = c("Ventricle_Right", "Spleen"))
+plot_loop_snp(snp='rs10040658', pop = "AFR", show_cells = c("GM12878", "Lung"))
 }

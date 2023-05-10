@@ -4,14 +4,27 @@
 \alias{plot_affect_gene}
 \title{Return barplots of affected genes of SNPs.}
 \usage{
-plot_affect_gene(data, plot_type = "merged", show_num = 7)
+plot_affect_gene(
+  data,
+  data_source = "API",
+  gene = "Ensembl",
+  plot_type = "merged",
+  show_num = 7,
+  go_enrichment = FALSE
+)
 }
 \arguments{
 \item{data}{Required. The annotation results from VEP.}
 
+\item{data_source}{Optional. The source of the inpit data. "API" or "Upload" can be selected. Default is "API" (Input annotated data from get_batch_vep() function).}
+
+\item{gene}{Optional. The version of gene names. "Ensembl" and "Symbol" can be selected.  Default is "Ensembl".}
+
 \item{plot_type}{Optional."gene", "snp", "all" and "merged" can be selected. Default is "rsID".}
 
 \item{show_num}{Optional. The number of affected genes shown on the plot. Default is 7.}
+
+\item{go_enrichment}{Optional. Whether to do the GO enrichment analysis of genes. Default is FALSE. (Users can do the enrichment analysis by analyze_gwas_enrich() as well)}
 }
 \value{
 A data.frame.
@@ -20,7 +33,8 @@ A data.frame.
 Return barplots of affected genes of SNPs.
 }
 \examples{
-pdf("affected_genes.pdf", height = 7, width = 8)
-plot_affect_gene(data, plot_type = "merged")
+data <- test_upload
+pdf("affected_genes.pdf", height = 3, width = 8)
+plot_affect_gene(data, data_source="Upload", gene = "Symbol", plot_type = "merged")
 dev.off()
 }

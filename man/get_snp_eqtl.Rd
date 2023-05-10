@@ -17,8 +17,8 @@ get_snp_eqtl(snp, input_type = "rsID", eqtl_tissue = "Whole_Blood")
 A data.frame of associated phenotypes and reserach of the SNP.
 }
 \description{
-Using the \href{https://gtexportal.org/home/api-docs/index.html#!/association/singleTissueEqtl}{GTEx api} to generate the information.
+Using the \href{https://gtexportal.org/api/v2/association/singleTissueEqtl}{GTEx api} to generate the information.
 }
 \examples{
-gtex_data <- get_snp_eqtl(snp, eqtl_tissue = "Whole_Blood")
+gtex_data <- get_snp_eqtl(snp="rs10040658", eqtl_tissue = "Whole_Blood")
 }

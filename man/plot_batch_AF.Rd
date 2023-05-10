@@ -7,7 +7,7 @@
 plot_batch_AF(data, version = "1000G")
 }
 \arguments{
-\item{data}{Required. The annotation results from VEP.}
+\item{data}{Required. The annotation results from VEP (Only for Upload version, not for api).}
 
 \item{version}{Optional."1000G" or "gnomAD" can be selected. Default is "1000G".}
 }

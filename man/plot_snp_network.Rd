@@ -4,12 +4,25 @@
 \alias{plot_snp_network}
 \title{Return the network.}
 \usage{
-plot_snp_network(snp, input_type = "rsID", colors = "default")
+plot_snp_network(
+  snp,
+  input_type = "rsID",
+  cells = "all",
+  pop,
+  tissue_type = "Whole_Blood",
+  colors = "default"
+)
 }
 \arguments{
 \item{snp}{Required.}
 
 \item{input_type}{Optional. The assembly version of the input SNP. "rsID", "hg19" and "hg38" can be selected. Default is "rsID".}
+
+\item{cells}{Optional. The output cells. Default is "all".}
+
+\item{pop}{Required. Population.}
+
+\item{tissue_type}{Optional. The tissue of interest (for eQTLs). Default is "Whole_Blood".. Default is "Whole_Blood".}
 
 \item{colors}{Optional. Vectors with 6 colors. "default" is `brewer.pal(6, "Set1")`.}
 }

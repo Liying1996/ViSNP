@@ -4,7 +4,7 @@
 \alias{plot_snp_motif}
 \title{Return the disrupted motif sequences.}
 \usage{
-plot_snp_motif(snp, input_type = "rsID")
+plot_snp_motif(snp, input_type = "rsID", tf = "all")
 }
 \arguments{
 \item{snp}{Required.}
@@ -18,5 +18,5 @@ A plot.
 Return the disrupted motif sequences.
 }
 \examples{
-plot_snp_motif(snp="rs1059196")
+plot_snp_motif(snp="rs10040658")
 }

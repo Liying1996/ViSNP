@@ -4,7 +4,12 @@
 \alias{query_snp}
 \title{Return information of a SNP}
 \usage{
-query_snp(snp, input_type = "rsID", eqtl_tissue = "Whole_Blood")
+query_snp(
+  snp,
+  input_type = "rsID",
+  eqtl_tissue = "Whole_Blood",
+  verbose = FALSE
+)
 }
 \arguments{
 \item{snp}{Required.}
@@ -12,6 +17,8 @@ query_snp(snp, input_type = "rsID", eqtl_tissue = "Whole_Blood")
 \item{input_type}{Optional. The assembly version of the input SNP. "rsID", "hg19" and "hg38" can be selected. Default is "rsID".}
 
 \item{eqtl_tissue}{Optional. Tissue ID of the tissue of interest. Default is "Whole_Blood".}
+
+\item{verbose}{Optional. Whether to show the intermediate process. Default is FALSE.}
 }
 \value{
 A data.frame.
@@ -20,5 +27,5 @@ A data.frame.
 Return information of a SNP
 }
 \examples{
-info_table <- query_snp("chr1:1014863 ", input_type="hg38")
+info_table <- query_snp("chr1:1014863", input_type="hg38")
 }

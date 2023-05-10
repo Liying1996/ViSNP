@@ -7,7 +7,7 @@
 plot_batch_titv(data)
 }
 \arguments{
-\item{data}{Required. The annotation results from VEP.}
+\item{data}{Required. The annotation results from VEP (Upload only).}
 }
 \value{
 A barplot.

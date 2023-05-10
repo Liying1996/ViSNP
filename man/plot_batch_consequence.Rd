@@ -4,12 +4,19 @@
 \alias{plot_batch_consequence}
 \title{Return barplots of consequences.}
 \usage{
-plot_batch_consequence(data, show_num = 7, colors = "default")
+plot_batch_consequence(
+  data,
+  show_num = 7,
+  data_source = "API",
+  colors = "default"
+)
 }
 \arguments{
 \item{data}{Required. The annotation results from VEP.}
 
 \item{show_num}{Optional. The number of affected genes shown on the plot. Default is 7.}
+
+\item{data_source}{Optional. The source of the input data. "API" or "Upload" can be selected. Default is "API" (Input annotated data from get_batch_vep() function).}
 
 \item{colors}{Optional. Default is `ggsci::pal_igv(alpha = 0.8)(show_num)`.}
 }
@@ -20,5 +27,5 @@ Barplots.
 Return barplots of consequences.
 }
 \examples{
-plot_consequence(data, show_num = 10, colors = rainbow(10))
+plot_batch_consequence(data, show_num = 10, data_source="API", olors = rainbow(10))
 }

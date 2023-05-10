@@ -4,14 +4,24 @@
 \alias{plot_batch_cCREs}
 \title{Return barplots of cCREs that SNPs overlapped.}
 \usage{
-plot_batch_cCREs(data, assembly = "hg38", show_unclassified = FALSE)
+plot_batch_cCREs(
+  snps_loc,
+  assembly = "hg38",
+  show_unclassified = FALSE,
+  enrichment = FALSE,
+  show_p = FALSE
+)
 }
 \arguments{
-\item{data}{Required. The annotation results from VEP.}
+\item{snps_loc}{Required.  The locations of SNPs, the format should be like: "chr1:1014863".}
 
 \item{assembly}{Optional. "hg19" and hg38" can be selected. Default is "hg38".}
 
-\item{show_unclassified}{Optional. Whether to display SNPs without overlapping cCREs.}
+\item{show_unclassified}{Optional. Whether to display SNPs without overlapping cCREs. Default is FALSE.}
+
+\item{enrichment}{Optional. Whether to do the enrichment analysis of cCREs. Default is FALSE. (Users can do the enrichment analysis by analyze_ccre_enrich() as well)}
+
+\item{show_p}{Optional.Show p-values or "***" (significant) on enrichment plot. Default is FALSE.}
 }
 \value{
 A data.frame.
@@ -20,5 +30,5 @@ A data.frame.
 Return barplots of cCREs that SNPs overlapped.
 }
 \examples{
-plot_batch_cCREs(data, assembly = "hg38", show_unclassified=FALSE)
+plot_batch_cCREs(snps_loc, assembly = "hg38", show_unclassified=FALSE, enrichment=FALSE, show_p=FALSE)
 }
