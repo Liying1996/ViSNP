@@ -350,7 +350,7 @@ vep_anno <- get_batch_vep(c("rs56116432", "rs10040658"), input_type = "rsID")
 # get_batch_vep(snps=c("chr9:133256042", "chr5:139671430"), input_type = 'hg38')
 ```
 
-**[Annotated via `query_snp`] **
+##### [Annotated via `query_snp`] 
 
 ***get_batch_SNP_info(snps, input_type="rsID", eqtl_tissue="Whole_Blood")***
 
