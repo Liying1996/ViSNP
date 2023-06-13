@@ -357,7 +357,9 @@ vep_anno <- get_batch_vep(c("rs56116432", "rs10040658"), input_type = "rsID")
 Return information of a batch of SNPs (Annotated via `query_snp`. This method is relatively slow due to the need to access multiple databases via APIs.
 
 `snp` Required.
+
 `input_type` Optional. The assembly version of the input SNP. "rsID", "hg19" and "hg38" can be selected. Default is "rsID".
+
 `eqtl_tissue` Optional. Tissue ID of the tissue of interest. Default is "Whole_Blood".
 
 ```
@@ -444,6 +446,7 @@ plot_batch_consequence(test_upload, data_source="Upload")
  Return the go enrichment of genes.
 
 `snp_genes` Required. The annotated genes of input SNPs.
+
 `output_type` Optional. Show dotplot/barplot of GO enrichment results. Default is dotplot.
 
 ```
