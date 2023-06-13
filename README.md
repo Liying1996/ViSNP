@@ -380,7 +380,7 @@ Please annotate SNPs with the following parameters first with VEP:
 # Manually downloading caches
 # cd ~/SNP_visualize/
 # curl -O https://ftp.ensembl.org/pub/release-105/variation/vep/homo_sapiens_vep_105_GRCh38.tar.gz
-# tar xzf homo_sapiens_vep_109_GRCh38.tar.gz
+# tar xzf homo_sapiens_vep_105_GRCh38.tar.gz
 
 vep --cache --dir_cache ~/SNP_visualize/  \
     --fasta ~/reference/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz \
