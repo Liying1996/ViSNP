@@ -520,7 +520,7 @@ Simulation enrichment  is used to test whether the input SNPs are enriched in cC
 
 Method:
 
-1). Randomly select the same number of SNPs as input SNPs from 1000Genome as control ( 1 million SNPs randomly selected from 1000 Genome were used and embeded in Vi-SNP in order to speed up the test);
+1). Randomly select the same number of SNPs as input SNPs from 1000Genome as control ( 1 million SNPs randomly selected from 1000 Genome were used and embeded in Vi-SNP in order to speed up the test), iterate 500 times;
 
 2). Calculate the number of input and control SNPs enriched in each cCRE;
 
