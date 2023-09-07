@@ -17,7 +17,7 @@ get_snp_ccre <- function(snp, input_type="rsID", output_assembly="hg19"){
   }else{
     cCRE_data <- cCRE_data_hg38
   }
-  colnames(cCRE_data) <- c("chrom", "start", "end", "accession", "SCREEN_accession", "type")
+  colnames(cCRE_data) <- c("chrom", "start", "end", "accession", "cCRE_accession", "type")
 
   if (output_assembly=="hg19"){
     if (input_type=="hg38"){

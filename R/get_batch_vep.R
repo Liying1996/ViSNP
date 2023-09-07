@@ -21,6 +21,10 @@ get_batch_vep <- function(snps, input_type='rsID'){
     for (snp in snps){
       new_snps <-  c(new_snps, get_snp_rsID(snp, assembly = "hg19"))
     }
+  }else if(input_type=="rsID"){
+    new_snps <- snps
+  }else{
+    stop("Please enter one of 'hg19', 'hg38', or 'rsID'!")
   }
 
   snps <- new_snps

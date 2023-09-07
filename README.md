@@ -11,6 +11,33 @@ Single-nucleotide polymorphism (SNP) is an important topic for most genetic asso
 devtools::install_github("Liying1996/ViSNP")
 ```
 
+If the installation of these dependent packages fails, please install the following packages first:
+
+* liftOver
+
+* biomaRt 
+
+* ComplexHeatmap
+
+* enrichplot
+
+* clusterProfiler
+
+* bedtoolsr
+
+If the following warning occurs:
+
+```
+Warning in value[[3L]](cond) :
+  bedtools does not appear to be installed or not in your PATH. If it is installed, please add it to your PATH or run
+```
+
+please add the path of bedtools, for example (This package is required for Function `analyze_ccre_enrich`and `plot_batch_cCREs`; you can skip it if you don't need):
+
+```
+options(bedtools.path = "~/anaconda3/bin/")
+```
+
 ## 3. **Functions of the package**
 
 Workflow.
@@ -30,12 +57,11 @@ Workflow.
 `verbose`: Whether to show the intermediate process. Default is FALSE.
 
 
-
-
 ```{r}
-info_table <- query_snp("rs1891906")
-info_table <- query_snp("chr1:950243", input_type="hg19")
-info_table <- query_snp("chr1:1014863 ", input_type="hg38")
+# info_table <- query_snp("rs1891906")
+info_table <- query_snp("rs10040658")
+info_table <- query_snp("chr5:139051015", input_type="hg19")
+info_table <- query_snp("chr5:139671430", input_type="hg38")
 ```
 
 Output:
@@ -86,7 +112,7 @@ get_snp_loc("rs10040658", 'hg38')
 Return the ENCODE SCREEN (https://screen.encodeproject.org/) cCREs (candidate cis-regulatory elements) that SNPs overlapped.
 
 ```{r}
-snp <- "rs1059196"
+snp <- "rs10040658"
 cCRE_intersect <- get_snp_ccre(snp)
 # get_snp_ccre("chr22:19724571", input_type = "hg38", output_assembly = "hg38")
 ```
@@ -268,7 +294,7 @@ Heatmap:
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/8_ld_heatmap.png)
 
-#### ***plot_snp_circos(snp_info_table, window_size=2e5, output_assembly = "hg19", savefile="circos.pdf")***
+#### ***plot_snp_circos(snp_info_table, output_assembly = "hg19", window_size=2e5, circos_pos="Relative", savefile="circos.pdf")***
 
 Return the circos plot.
 
@@ -277,6 +303,10 @@ Return the circos plot.
 `output_assembly` Optional. The version of chromosome coordinates of output circos plots. Default is "hg19".
 
 `window_size` Optional. Window size around the SNP displayed. Default is 2e5. `savefile` Optional. The filename of the circos plot.
+
+`circos_pos` Optional. Circos plot coordinate position. You can choose 'Relative' or 'Absolute'. Relative position represents the window range (0-window_size) of the input SNP, while absolute position is the actual genomic coordinates. The default is 'Relative'.
+
+`circos_pos` Optional. Circos plot coordinate position. You can choose 'Relative' or 'Absolute'. Relative position represents the window range (0-window_size) of the input SNP, while absolute position is the actual genomic coordinates. The default is 'Relative'.
 
 ```{r}
 info_table <- query_snp("rs1059196")
@@ -290,7 +320,7 @@ plot_snp_circos(snp_info_table=info_table, window_size = 1e5, savefile="~/test/c
 
 ```
 info_table <- query_snp("rs10040658")
-plot_snp_circos(snp_info_table=info_table, savefile="~/test/circos3.pdf")
+plot_snp_circos(snp_info_table=info_table, circos_pos="Absolute", savefile="~/test/circos3.pdf")
 ```
 
 ![](https://github.com/Liying1996/ViSNP/blob/master/example_figs/9_circos2.jpg)

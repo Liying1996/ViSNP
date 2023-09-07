@@ -3,6 +3,7 @@
 #' @param snp_info_table Required. The output data.frame of `query_snp()`.
 #' @param output_assembly Optional. The version of chromosome coordinates of output circos plots. Default is "hg19".
 #' @param window_size Optional. Window size around the SNP displayed. Default is 2e5.
+#' @param circos_pos Optional. Circos plot coordinate position. You can choose 'Relative' or 'Absolute'. Relative position represents the window range (0-window_size) of the input SNP, while absolute position is the actual genomic coordinates. The default is 'Relative'.
 #' @param savefile Optional. The filename of the circos plot.
 #'
 #' @return A circos plot.
@@ -13,7 +14,7 @@
 #' plot_snp_circos(snp_info_table=info_table, window_size = 1e5, savefile="~/circos.pdf")
 
 
-plot_snp_circos <- function(snp_info_table, output_assembly = "hg19", window_size=2e5, savefile="circos.pdf"){
+plot_snp_circos <- function(snp_info_table, output_assembly = "hg19", window_size=2e5, circos_pos="Relative", savefile="circos.pdf"){
 
   snp <- snp_info_table[snp_info_table$Info=="rsID", 2]
   chrom <- snp_info_table[snp_info_table$Info=="Chromosome", 2]
@@ -76,7 +77,7 @@ plot_snp_circos <- function(snp_info_table, output_assembly = "hg19", window_siz
     cCRE_data <-cCRE_data_hg38
   }
 
-  colnames(cCRE_data) <- c("chrom", "start", "end", "accession", "SCREEN_accession", "type")
+  colnames(cCRE_data) <- c("chrom", "start", "end", "accession", "cCRE_accession", "type")
   cCRE_data_intersect <- cCRE_data[(cCRE_data$chrom==chrom) & (cCRE_data$start >= start_pos) & (cCRE_data$end <= end_pos), ]
 
   cCRE_data_group <- cCRE_data_intersect
@@ -90,11 +91,15 @@ plot_snp_circos <- function(snp_info_table, output_assembly = "hg19", window_siz
   }
 
   # Draw
+
   pdf(file = savefile, width = 10, height = 7)
 
   circle_size = unit(1, "snpc")
   circos.par("start.degree" = 90)
-  circos.genomicInitialize(chrom_input, plotType = 'axis', axis.labels.cex = 0.7)
+  if (circos_pos=="Absolute"){
+    circos.genomicInitialize(chrom_input, plotType = 'axis', axis.labels.cex = 0.45, tickLabelsStartFromZero = FALSE)}else{
+    circos.genomicInitialize(chrom_input, plotType = 'axis', axis.labels.cex = 0.7, tickLabelsStartFromZero = TRUE)
+    }
 
   circos.genomicTrackPlotRegion(
     cCRE_data_input, track.height = 0.1, stack = TRUE, bg.border = "gray",

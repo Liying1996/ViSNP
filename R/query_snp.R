@@ -99,11 +99,11 @@ query_snp <- function(snp, input_type="rsID", eqtl_tissue="Whole_Blood", verbose
   loop_snps <- unique(loop_snp_info$SNP_B)[unique(loop_snp_info$SNP_B)!=""]
   if (length(loop_snps)!=0){
     loop_snps <- loop_snps[order(loop_snps)]
-    if (length(loop_snps)>=5){
-      loop_snps <- paste(loop_snps[1:5], collapse =",") # Only shows 5 SNPs-B
-    }else{
+    # if (length(loop_snps)>=5){
+    #   loop_snps <- paste(loop_snps[1:5], collapse =",") # Only shows 5 SNPs-B
+    # }else{
       loop_snps <- paste(loop_snps, collapse =",")
-    }
+    # }
   }else{
     loop_snps <- "-"
   }
@@ -133,7 +133,7 @@ query_snp <- function(snp, input_type="rsID", eqtl_tissue="Whole_Blood", verbose
   if (nrow(cCRE_table)==0){
     cCRE_info <- "-"
   }else{
-    cCRE_info <- paste(cCRE_table$type, " (", cCRE_table$SCREEN_accession, ")", sep="")
+    cCRE_info <- paste(cCRE_table$type, " (", cCRE_table$cCRE_accession, ")", sep="")
   }
 
 
